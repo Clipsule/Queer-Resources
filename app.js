@@ -13,6 +13,7 @@
   ];
 
   const REGION_LABEL = { cn: '中国大陆', tw: '中国台湾', hk: '中国香港', intl: '国际/其他', all: '全部' };
+  const REPO_URL = 'https://github.com/Clipsule/Queer-Resources';
 
   // ---- 安全的 localStorage 包装 ----
   const storage = {
@@ -29,6 +30,7 @@
   };
 
   let fullGridRendered = false;
+  let allCards = null; // 缓存的 cards NodeList
 
   // ---- 工具函数 ----
   function debounce(fn, ms) {
@@ -49,16 +51,13 @@
 
   function safeUrl(url) {
     if (!url) return '';
-    // tel: 和 mailto: 不需要 hostname 校验
     if (url.startsWith('tel:')) {
-      // tel: 后面只允许数字、+、-、空格、括号
       const rest = url.substring(4);
       if (/^[0-9+\-()\s]+$/.test(rest)) return url;
       return '';
     }
     if (url.startsWith('mailto:')) {
       const rest = url.substring(7);
-      // 简单邮箱格式检查
       if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rest.split('?')[0])) return url;
       return '';
     }
@@ -114,7 +113,12 @@
     violence: 'border-orange-100/80 text-orange-800'
   };
 
-  function cardHtml(item) {
+  /**
+   * 渲染单张资源卡片
+   * @param {Object} item - resources.js 条目
+   * @param {string} uid - 唯一 id 如 "0-3" 或 "f-1"
+   */
+  function cardHtml(item, uid) {
     const href = safeUrl(item.url);
     if (!href) return '';
     const cat = primaryCat(item);
@@ -127,56 +131,58 @@
     const locHtml = item.location
       ? '<span class="px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100/90 text-slate-600">' + escapeHtml(item.location) + '</span>'
       : '';
-    const id = 'item-' + (item.name || '').replace(/[^a-z0-9]/gi, '').substring(0, 30);
-    const subsectionTitle = item.subsection || item.section || '';
+    const id = 'item-' + uid;
+
     return (
-      '<article class="glass-card-pro p-7 md:p-8 flex flex-col justify-between group" id="' + id + '" aria-labelledby="' + id + '-title" data-category="' +
+      // position: relative 为 stretched link 建立定位上下文
+      '<article class="glass-card-pro p-7 md:p-8 flex flex-col justify-between group relative min-h-[280px]" id="' + id + '" aria-labelledby="' + id + '-title" data-category="' +
       escapeHtml((item.categories || []).join(' ')) + '" data-region="' + escapeHtml(item.region || 'intl') +
       '" data-type="' + escapeHtml(item.typeKey || 'ngo') + '" data-search="' +
       escapeHtml([item.name, item.type, item.location, item.note, item.section, item.subsection].concat(item.tags || []).join(' ').toLowerCase()) +
       '">' +
-      '<div>' +
-        '<div class="flex flex-wrap items-center gap-2 mb-3.5">' + tagHtml + locHtml + '</div>' +
-        '<div class="flex items-start justify-between gap-2 mb-2.5">' +
-          '<h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug" id="' + id + '-title">' + escapeHtml(item.name) + '</h3>' +
-          '<a aria-label="访问 ' + escapeHtml(item.name) + '" class="p-1 text-slate-400 hover:text-blue-600 transition-colors flex-shrink-0" href="' + escapeHtml(href) + '" rel="noopener noreferrer" target="_blank">' +
-          '<span aria-hidden="true" class="material-symbols-outlined text-lg">open_in_new</span></a>' +
+        // stretched link：覆盖整卡的主点击入口（z-10，高于背景但低于需要独立点击的子元素）
+        '<a class="absolute inset-0 z-10 rounded-3xl cursor-pointer" aria-label="访问 ' + escapeHtml(item.name) + ' 的官网" href="' + escapeHtml(href) + '" rel="noopener noreferrer" target="_blank"></a>' +
+        // 内容层：pointer-events-none 让点击穿透到 stretched link；只有真正独立的交互元素才恢复 pointer-events-auto
+        '<div class="relative z-20 flex flex-col justify-between flex-1 pointer-events-none">' +
+          '<div>' +
+            '<div class="flex flex-wrap items-center gap-2 mb-3.5">' + tagHtml + locHtml + '</div>' +
+            '<div class="mb-2.5">' +
+              '<h3 class="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug" id="' + id + '-title">' + escapeHtml(item.name) + '</h3>' +
+            '</div>' +
+            '<p class="text-sm text-slate-600 leading-relaxed mb-5 font-normal">' + escapeHtml(item.type || '') + (item.subsection ? ' · ' + escapeHtml(item.subsection) : '') + '</p>' +
+            '<div class="p-3.5 rounded-2xl bg-white/70 border text-xs text-slate-600 leading-relaxed ' + (risk ? 'border-amber-200/90' : accent.split(' ')[0]) + '">' +
+              '<div class="flex items-center gap-1.5 font-bold mb-1 ' + (risk ? 'text-amber-800' : accent.split(' ')[1]) + '">' +
+                '<span aria-hidden="true" class="material-symbols-outlined text-base">' + (risk ? 'warning' : 'info') + '</span>' +
+                '<span>' + (risk ? '风险提示' : '说明') + '</span>' +
+              '</div>' + escapeHtml(item.note || '请以机构官网最新说明为准。') +
+            '</div>' +
+          '</div>' +
+          '<div class="mt-6 pt-4 border-t border-slate-200/50 flex items-center justify-between text-xs text-slate-500 font-medium gap-3">' +
+            '<span class="truncate">' + escapeHtml(item.location || '') + '</span>' +
+            '<span class="text-blue-600 font-bold group-hover:underline">打开官网 →</span>' +
+          '</div>' +
         '</div>' +
-        '<p class="text-sm text-slate-600 leading-relaxed mb-5 font-normal">' + escapeHtml(item.type || '') + (item.subsection ? ' · ' + escapeHtml(item.subsection) : '') + '</p>' +
-        '<div class="p-3.5 rounded-2xl bg-white/70 border text-xs text-slate-600 leading-relaxed ' + (risk ? 'border-amber-200/90' : accent.split(' ')[0]) + '">' +
-          '<div class="flex items-center gap-1.5 font-bold mb-1 ' + (risk ? 'text-amber-800' : accent.split(' ')[1]) + '">' +
-            '<span aria-hidden="true" class="material-symbols-outlined text-base">' + (risk ? 'warning' : 'info') + '</span>' +
-            '<span>' + escapeHtml(subsectionTitle) + '</span>' +
-          '</div>' + escapeHtml(item.note || '请以机构官网最新说明为准。') +
-        '</div>' +
-      '</div>' +
-      '<div class="mt-6 pt-4 border-t border-slate-200/50 flex items-center justify-between text-xs text-slate-500 font-medium gap-3">' +
-        '<span class="truncate">' + escapeHtml(item.location || '') + '</span>' +
-        '<a aria-label="打开 ' + escapeHtml(item.name) + ' 的官网" class="text-blue-600 font-bold group-hover:underline flex-shrink-0" href="' + escapeHtml(href) + '" rel="noopener noreferrer" target="_blank">打开官网 →</a>' +
-      '</div></article>'
+      '</article>'
     );
   }
 
+  /**
+   * 渲染危机热线卡片：统一为"名称 + 地区 + 访问官网"，phone 字段待 parse_resources.py 完善
+   */
   function crisisCardHtml(item) {
     const href = safeUrl(item.url);
     if (!href) return '';
     const name = escapeHtml(item.name || '');
     const loc = escapeHtml(item.location || '');
-    // 尝试从 note 或 url 中提取电话号码
-    const phoneMatch = (item.note || '').match(/tel:?\s*([0-9+\-()\s]+)/i)
-      || (item.url || '').match(/tel:([0-9+\-()]+)/i);
-    const phoneDisplay = phoneMatch ? escapeHtml(phoneMatch[1].trim()) : '';
-    const phoneHref = phoneMatch ? ('tel:' + phoneMatch[1].trim().replace(/\s+/g, '')) : '';
     return (
       '<div class="p-4 rounded-xl bg-white/60 border border-slate-200/60 flex items-center justify-between gap-3">' +
-        '<div class="min-w-0">' +
+        '<div class="min-w-0 flex-1">' +
           '<div class="text-xs text-slate-500 mb-0.5 truncate">' + name + (loc ? ' · ' + loc : '') + '</div>' +
-          (phoneHref
-            ? ('<a class="text-lg font-bold text-slate-800 hover:text-rose-500 flex items-center gap-1" href="' + phoneHref + '" rel="noopener noreferrer"><span aria-hidden="true" class="material-symbols-outlined text-base text-slate-400">call</span>' + phoneDisplay + '</a>')
-            : ('<a class="text-base font-bold text-slate-800 hover:text-rose-500 flex items-center gap-1 truncate" href="' + escapeHtml(href) + '" rel="noopener noreferrer" target="_blank"><span aria-hidden="true" class="material-symbols-outlined text-base text-slate-400">language</span>访问官网</a>')
-          ) +
+          '<a class="text-base font-bold text-slate-800 hover:text-rose-500 flex items-center gap-1 truncate" href="' + escapeHtml(href) + '" rel="noopener noreferrer" target="_blank">' +
+            '<span aria-hidden="true" class="material-symbols-outlined text-base text-slate-400">language</span>访问官网获取联系方式' +
+          '</a>' +
         '</div>' +
-        '<a class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1.5 rounded-full flex-shrink-0" href="' + escapeHtml(href) + '" target="_blank" rel="noopener noreferrer">官网</a>' +
+        '<a class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1.5 rounded-full flex-shrink-0 hover:bg-rose-50 hover:text-rose-700 transition-colors" href="' + escapeHtml(href) + '" target="_blank" rel="noopener noreferrer">官网</a>' +
       '</div>'
     );
   }
@@ -199,9 +205,16 @@
   function buildFullGridHtml() {
     const resources = window.QUEER_RESOURCES || [];
     if (!resources.length) return '<p class="text-sm text-slate-500">未能载入 resources.js。</p>';
-    return groupResources(resources).map(function (group) {
+    const groups = groupResources(resources);
+    let uidCounter = 0;
+    return groups.map(function (group, gi) {
       const title = group.subsection || group.section;
       const subtitle = group.subsection ? group.section : '';
+      const cardsHtml = group.items.map(function (item) {
+        const html = cardHtml(item, 'g' + gi + '-' + uidCounter);
+        uidCounter++;
+        return html;
+      }).join('');
       return (
         '<section class="resource-group space-y-4" data-group>' +
           '<div class="flex items-end justify-between gap-3 border-b border-slate-200/70 pb-2">' +
@@ -209,7 +222,7 @@
             (subtitle ? '<p class="text-xs text-slate-500 mt-0.5">' + escapeHtml(subtitle) + '</p>' : '') + '</div>' +
             '<span class="text-xs font-semibold text-slate-500 group-count">' + group.items.length + ' 条</span>' +
           '</div>' +
-          '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">' + group.items.map(cardHtml).join('') + '</div>' +
+          '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">' + cardsHtml + '</div>' +
         '</section>'
       );
     }).join('');
@@ -221,6 +234,7 @@
     if (!grid) return;
     grid.innerHTML = buildFullGridHtml();
     fullGridRendered = true;
+    allCards = null; // 下次 executeFilter 会重新 querySelectorAll
     updateCounts();
   }
 
@@ -244,6 +258,8 @@
     if (total) total.textContent = resources.length;
     const heroHint = document.getElementById('heroResourceHint');
     if (heroHint) heroHint.textContent = '共 ' + resources.length + ' 条';
+    const live = document.getElementById('filterStatus');
+    if (live && !live.textContent) live.textContent = '共 ' + resources.length + ' 条资源';
   }
 
   function renderFeaturedGrid() {
@@ -251,17 +267,19 @@
     const resources = window.QUEER_RESOURCES || [];
     if (!grid || !resources.length) return;
     const picked = [];
-    const seenSections = new Set();
+    const seenCats = new Set();
     for (const item of resources) {
-      const key = item.subsection || item.section || '';
-      if (!seenSections.has(key)) { picked.push(item); seenSections.add(key); }
+      const key = (item.categories && item.categories[0]) || item.section || '';
+      if (!seenCats.has(key)) { picked.push(item); seenCats.add(key); }
       if (picked.length >= 9) break;
     }
     for (const item of resources) {
       if (picked.length >= 9) break;
       if (picked.indexOf(item) === -1) picked.push(item);
     }
-    grid.innerHTML = picked.slice(0, 9).map(cardHtml).join('');
+    grid.innerHTML = picked.slice(0, 9).map(function (item, i) {
+      return cardHtml(item, 'f' + i);
+    }).join('');
   }
 
   // ---- 筛选样式 ----
@@ -281,6 +299,8 @@
       btn.classList.toggle('border-white/80', !on);
       btn.classList.toggle('font-semibold', !on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      const listId = document.getElementById('resourceGrid');
+      if (listId) btn.setAttribute('aria-controls', listId.id);
     });
   }
 
@@ -317,14 +337,17 @@
     ensureFullGridRendered();
     const searchInput = document.getElementById('searchInput');
     const noResults = document.getElementById('noResults');
-    const cards = document.querySelectorAll('#resourceGrid article');
+    // 缓存 NodeList 避免每次 DOM 查询
+    if (!allCards || allCards.length === 0) {
+      allCards = document.querySelectorAll('#resourceGrid article');
+    }
     state.query = ((searchInput && searchInput.value) || '').toLowerCase().trim();
 
     // 多关键词 AND 搜索
     const terms = state.query ? state.query.split(/\s+/).filter(Boolean) : [];
 
     let matchCount = 0;
-    cards.forEach(function (card) {
+    allCards.forEach(function (card) {
       const cats = card.getAttribute('data-category') || '';
       const region = card.getAttribute('data-region') || 'intl';
       const type = card.getAttribute('data-type') || 'ngo';
@@ -350,7 +373,7 @@
 
     if (noResults) noResults.classList.toggle('hidden', matchCount !== 0);
     const label = document.getElementById('visibleCountLabel');
-    const total = cards.length;
+    const total = allCards.length;
     if (label) {
       const regionLabel = state.region !== 'all' ? ' · ' + (REGION_LABEL[state.region] || state.region) : '';
       label.innerHTML = '<span aria-hidden="true" class="material-symbols-outlined text-sm text-blue-600">sort</span><span>显示 ' + matchCount + ' / ' + total + ' 条' + regionLabel + '</span>';
@@ -358,15 +381,28 @@
     // aria-live 更新
     const live = document.getElementById('filterStatus');
     if (live) live.textContent = matchCount === 0 ? '未找到匹配的资源' : '找到 ' + matchCount + ' 条资源';
+    // 统一在这里同步 URL（避免多处重复调用）
+    syncUrl();
   }
 
   // ---- 视图切换 ----
+  function setActiveNav(view) {
+    document.querySelectorAll('.nav-item').forEach(function (el) {
+      const target = el.getAttribute('data-nav');
+      if (target === view) el.classList.add('nav-active');
+      else el.classList.remove('nav-active');
+    });
+    // logo 也加 nav-active
+    const logo = document.querySelector('[data-nav="home"][data-action="show-home"]');
+    if (logo && view === 'home') logo.classList.add('nav-active');
+    else if (logo) logo.classList.remove('nav-active');
+  }
+
   function showHomeView() {
     document.getElementById('homeView').classList.remove('hidden');
     document.getElementById('allView').classList.add('hidden');
-    if (document.getElementById('bodyRoot').scrollIntoView) {
-      try { document.getElementById('main-content').focus(); } catch (e) { /* ignore */ }
-    }
+    setActiveNav('home');
+    try { document.getElementById('main-content').focus(); } catch (e) { /* ignore */ }
   }
 
   function showAllView() {
@@ -374,16 +410,16 @@
     document.getElementById('allView').classList.remove('hidden');
     ensureFullGridRendered();
     executeFilter();
+    setActiveNav('all');
     try { document.getElementById('main-content').focus(); } catch (e) { /* ignore */ }
   }
 
   function quickSearch(query) {
     const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.value = query;
+    if (searchInput) { searchInput.value = query; searchInput.focus(); try { searchInput.select(); } catch (e) { /* ignore */ } }
     state.query = query;
     showAllView();
-    executeFilter();
-    syncUrl();
+    // showAllView 内部已调用 executeFilter（含 syncUrl），此处不再重复
   }
 
   function resetFilters() {
@@ -397,7 +433,6 @@
     setTypeStyle('all');
     setRegionStyle('all');
     executeFilter();
-    syncUrl();
   }
 
   function applyFilterState() {
@@ -405,7 +440,6 @@
     setTypeStyle(state.type);
     setRegionStyle(state.region);
     executeFilter();
-    syncUrl();
   }
 
   // ---- 主题 ----
@@ -421,7 +455,6 @@
   // ---- 事件委托：所有 data-action 按钮 ----
   function handleActionClick(e) {
     let el = e.target;
-    // 向上查找带 data-action 的元素
     while (el && el !== document.body) {
       const action = el.getAttribute && el.getAttribute('data-action');
       if (action) { doAction(action, el); e.preventDefault(); return; }
@@ -509,7 +542,6 @@
         const allHidden = document.getElementById('allView').classList.contains('hidden');
         if (!allHidden) {
           executeFilter();
-          syncUrl();
         }
       }, 180));
       searchInput.addEventListener('keydown', function (e) {
@@ -553,5 +585,12 @@
 
     // 初次渲染筛选状态
     applyFilterState();
+
+    // 初始导航高亮 — 只在 index.html（有 homeView/allView 的 SPA）上干预
+    // crisis.html / contributing.html 硬编码 nav-active，不覆盖
+    if (document.getElementById('homeView')) {
+      const hash = parseHash();
+      setActiveNav(hash && hash.category !== 'all' ? 'all' : 'home');
+    }
   });
 })();

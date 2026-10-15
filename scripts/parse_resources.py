@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Parse resources.md tables into unique JSON for the website.
+"""Parse docs/resources.md tables into unique JSON for the website.
 
-用法: python parse_resources.py          # 在项目根目录运行
-     python parse_resources.py <outdir>  # 指定输出目录
+用法: python scripts/parse_resources.py            # 输出到项目根目录
+     python scripts/parse_resources.py <outdir>    # 指定输出目录
 """
 import json
 import re
@@ -10,12 +10,12 @@ import sys
 from pathlib import Path
 
 # ---- 跨平台路径解析 ----
-SCRIPT_DIR = Path(__file__).resolve().parent
-PROJECT_ROOT = SCRIPT_DIR
-SRC_MD = PROJECT_ROOT / "Resources and Guidelines Document" / "resources.md"
+SCRIPT_DIR = Path(__file__).resolve().parent          # scripts/
+PROJECT_ROOT = SCRIPT_DIR.parent                       # 项目根目录
+SRC_MD = PROJECT_ROOT / "docs" / "resources.md"
 
 if len(sys.argv) > 1:
-    OUT_ROOT = Path(sys.argv[1])
+    OUT_ROOT = Path(sys.argv[1]).resolve()
 else:
     OUT_ROOT = PROJECT_ROOT
 

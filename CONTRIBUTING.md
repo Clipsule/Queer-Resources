@@ -20,22 +20,19 @@
 
 ## 3. 数据更新流程
 
-本站资源数据维护在 `Resources and Guidelines Document/resources.md`，是一份 Markdown 表格。完整的数据更新流程：
+本站资源数据维护在 `docs/resources.md`，是一份 Markdown 表格。完整的数据更新流程：
 
 ```bash
 # 1. Fork 仓库并创建新分支
 git checkout -b update/add-new-resource
 
-# 2. 编辑 resources.md
+# 2. 编辑 docs/resources.md
 # 按照现有章节格式添加 / 修改行，保持表格格式一致
 
-# 3. 运行解析脚本，重新生成 resources.js 和 resources.json
-python3 parse_resources.py .
+# 3. 运行解析脚本，重新生成 resources.js
+python3 scripts/parse_resources.py
 
-# 4. 重新运行 HTML patch 脚本（如有必要）
-python3 _patch_html.py
-
-# 5. 提交并推送，发起 Pull Request
+# 4. 提交并推送，发起 Pull Request
 git add -A
 git commit -m "docs(resources): 新增 XXX 资源 / 更新 XXX 链接"
 git push
@@ -80,7 +77,7 @@ PR 在合入前需满足以下全部条件：
 ## 7. 技术开发
 
 - **无构建步骤**：本站使用 Tailwind CDN，不需要安装 Node / npm，不需要打包。
-- **Python 脚本**：`parse_resources.py` 仅依赖 Python 3.7+ 标准库（`re`、`pathlib`、`json`）。
+- **Python 脚本**：`scripts/parse_resources.py` 仅依赖 Python 3.7+ 标准库（`re`、`pathlib`、`json`）。
 - **本地预览**：任意静态服务器即可，例如：
   ```bash
   python3 -m http.server 8080

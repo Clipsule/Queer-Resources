@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="性少数心理危机与同行支持热线 · 免费、严格保密。如您处于即时危险，请直接拨打当地急救电话。" name="description"/>
+<meta content="Queer Resources" name="author"/>
+<meta content="#FDFDFD" name="theme-color"/>
+<title>求助热线 | Queer Resources</title>
+<script src="resources.js"></script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+  tailwind.config = { darkMode: "class", theme: { extend: { colors: { "bg-base": "#FDFDFD" }, fontFamily: { sans: ["Inter", "Noto Sans SC", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"] } } } };
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; line-height: 1; }
+    .aurora-blob { filter: blur(110px); }
+    .rainbow-shimmer-text { background: linear-gradient(135deg, #FF5376 0%, #A855F7 50%, #2563EB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .glass-card-pro { background: rgba(255, 255, 255, 0.62); backdrop-filter: blur(28px) saturate(145%); -webkit-backdrop-filter: blur(28px) saturate(145%); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 10px 36px rgba(31, 38, 135, 0.05); transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1); }
+    .glass-card-pro:hover { transform: translateY(-4px); box-shadow: 0 22px 50px rgba(31, 38, 135, 0.11); }
+    .glass-pill { background: rgba(255, 255, 255, 0.72); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255, 255, 255, 0.9); }
+    .nav-item { position: relative; }
+    .nav-item.nav-active { color: #2563eb !important; font-weight: 700; }
+    .nav-item.nav-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6); border-radius: 2px; }
+    .dark .nav-item.nav-active { color: #7AA5FF !important; }
+    .dark, [data-theme="dark"] { color-scheme: dark; }
+    .dark body { background-color: #0A0A0C; color: #F5F5F7; }
+    .dark header { background: rgba(10, 10, 12, 0.75) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
+    .dark .glass-card-pro { background: rgba(30, 30, 35, 0.6); border-color: rgba(255, 255, 255, 0.1); }
+    .dark .aurora-blob { opacity: 0.45; }
+    .dark footer { background: rgba(10, 10, 12, 0.8) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    body { font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; }
+</style>
+<script>
+    (function(){
+      try {
+        var saved = localStorage.getItem('qr-theme');
+        var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (saved ? saved === 'dark' : prefers) document.documentElement.classList.add('dark');
+      } catch(e){}
+    })();
+</script>
+</head>
+<body class="bg-[#F8F9FD] text-slate-800 min-h-screen antialiased relative overflow-x-hidden">
+<!-- AURORA -->
+<div aria-hidden="true" class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="aurora-blob absolute -top-24 -left-20 w-[580px] h-[580px] rounded-full bg-gradient-to-br from-rose-300/60 via-pink-200/55 to-amber-200/50"></div>
+<div class="aurora-blob absolute -top-16 -right-24 w-[620px] h-[620px] rounded-full bg-gradient-to-bl from-pink-400/55 via-fuchsia-200/50 to-purple-200/50"></div>
+<div class="aurora-blob absolute top-[55%] left-[28%] w-[680px] h-[520px] rounded-full bg-gradient-to-r from-rose-200/55 via-pink-200/50 to-fuchsia-200/50"></div>
+</div>
+
+<!-- NAV -->
+<header class="bg-white/70 backdrop-blur-2xl border-b border-white/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] top-0 fixed w-full z-50 transition-all dark:border-white/80">
+<div class="w-full px-4 md:px-8 max-w-7xl mx-auto flex items-center justify-between h-16">
+<div class="flex items-center gap-6">
+<a class="text-lg font-bold text-primary tracking-tight flex items-center gap-3 group" href="index.html" data-nav="home">
+<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-500 to-blue-500 flex items-center justify-center text-white shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform duration-200">
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">diversity_3</span>
+</div>
+<span class="rainbow-shimmer-text font-extrabold text-[19px] tracking-tight">Queer Resources</span>
+</a>
+<nav class="hidden lg:flex items-center space-x-6 text-sm ml-4 font-medium text-slate-600 dark:text-slate-400" aria-label="主导航">
+  <a class="nav-item hover:text-slate-900 dark:hover:text-slate-200 pb-1 transition-colors flex items-center gap-1.5" href="index.html" data-nav="home">
+    <span aria-hidden="true" class="material-symbols-outlined text-base">home</span><span>首页</span>
+  </a>
+  <a class="nav-item hover:text-slate-900 dark:hover:text-slate-200 pb-1 transition-colors flex items-center gap-1.5" href="index.html#/" data-nav="all">
+    <span aria-hidden="true" class="material-symbols-outlined text-base">explore</span><span>全部资源</span>
+  </a>
+  <a class="nav-item hover:text-rose-600 pb-1 transition-colors flex items-center gap-1.5 nav-active" href="crisis.html" data-nav="crisis">
+    <span aria-hidden="true" class="material-symbols-outlined text-base">phone_in_talk</span><span>求助热线</span>
+  </a>
+  <a class="nav-item hover:text-slate-900 dark:hover:text-slate-200 pb-1 transition-colors flex items-center gap-1.5" href="contributing.html" data-nav="contribute">
+    <span aria-hidden="true" class="material-symbols-outlined text-base">handshake</span><span>关于贡献</span>
+  </a>
+</nav>
+</div>
+<div class="flex items-center gap-2.5">
+<button aria-label="切换深色/浅色模式" aria-pressed="false" class="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-white/80 dark:hover:bg-white/10 transition-all border border-transparent hover:border-white/80 dark:hover:border-white/10" id="themeToggleBtn" type="button">
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]">dark_mode</span>
+</button>
+</div>
+</div>
+<div class="h-1 w-full bg-gradient-to-r from-rose-300 via-pink-300 to-fuchsia-300"></div>
+</header>
+<div class="h-16"></div>
+
+<!-- CONTENT -->
+<main class="relative z-10 max-w-5xl mx-auto px-4 md:px-8 py-12">
+  <!-- Emergency Banner -->
+  <section class="w-full bg-gradient-to-r from-rose-500/15 via-rose-400/10 to-amber-400/10 border border-rose-200/60 dark:border-rose-500/30 backdrop-blur-md rounded-3xl p-6 md:p-8 mb-10">
+    <div class="flex items-start gap-4">
+      <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-500 to-pink-500 text-white flex items-center justify-center flex-shrink-0 shadow-md shadow-rose-500/30">
+        <span aria-hidden="true" class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
+      </div>
+      <div class="space-y-3 flex-1">
+        <h1 class="text-2xl md:text-3xl font-black text-rose-800 dark:text-rose-200 leading-tight">如果你现在正处于即时身体危险</h1>
+        <p class="text-sm md:text-base text-rose-900 dark:text-rose-100/90 leading-relaxed">请立即拨打你所在地区的急救电话 — 不要等待，不要独自承受。</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pt-2">
+          <a class="text-center py-3 px-4 rounded-xl bg-white/70 dark:bg-white/10 border border-rose-200/80 dark:border-rose-500/30 font-bold text-rose-700 dark:text-rose-300 hover:bg-white transition-colors" href="tel:110">110 · 中国大陆 报警</a>
+          <a class="text-center py-3 px-4 rounded-xl bg-white/70 dark:bg-white/10 border border-rose-200/80 dark:border-rose-500/30 font-bold text-rose-700 dark:text-rose-300 hover:bg-white transition-colors" href="tel:120">120 · 中国大陆 急救</a>
+          <a class="text-center py-3 px-4 rounded-xl bg-white/70 dark:bg-white/10 border border-rose-200/80 dark:border-rose-500/30 font-bold text-rose-700 dark:text-rose-300 hover:bg-white transition-colors" href="tel:988">988 · 全国心理援助</a>
+          <a class="text-center py-3 px-4 rounded-xl bg-white/70 dark:bg-white/10 border border-rose-200/80 dark:border-rose-500/30 font-bold text-rose-700 dark:text-rose-300 hover:bg-white transition-colors" href="tel:119">119 · 火警</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Crisis Grid -->
+  <section class="space-y-6 mb-12" aria-labelledby="crisis-heading">
+    <div class="flex items-center gap-3">
+      <span aria-hidden="true" class="material-symbols-outlined text-3xl text-rose-500" style="font-variation-settings: 'FILL' 1;">phone_in_talk</span>
+      <h2 class="text-xl md:text-2xl font-extrabold text-slate-900 dark:text-slate-100" id="crisis-heading">性少数同行支持热线</h2>
+    </div>
+    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+      以下是社区整理的性少数同行支持热线与心理服务资源。多数为公益或低收费、严格保密、由经过性多元文化意识培训的倾听者或专业人员服务。<strong class="text-rose-700 dark:text-rose-300">所有电话号未经独立核验，请以机构官网为准。</strong>
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="crisisGrid"></div>
+    <p class="text-xs text-slate-400 dark:text-slate-500 pt-2 border-t border-slate-200/60 dark:border-white/80">
+      如需更多国际热线，可查阅 <a class="text-blue-600 dark:text-blue-400 hover:underline" href="https://githri.org/" target="_blank" rel="noopener noreferrer">GITHRI（全球 LGBT+ 热线索引）</a>。
+    </p>
+  </section>
+
+  <!-- Safety Tips -->
+  <section class="space-y-4 bg-white/50 dark:bg-white/5 rounded-3xl p-6 md:p-8 border border-white/70 dark:border-white/80 backdrop-blur-md">
+    <h2 class="text-lg md:text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+      <span aria-hidden="true" class="material-symbols-outlined text-xl text-blue-500">security</span>
+      安全与隐私提示
+    </h2>
+    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+      <li>• 大多数热线支持<strong>匿名通话</strong>，拨打前可询问接线员身份保密政策。</li>
+      <li>• 部分电话会出现在手机账单上，若在意这一点，建议使用 <a class="text-blue-600 dark:text-blue-400 hover:underline" href="https://www.torproject.org/zh-CN/" target="_blank" rel="noopener noreferrer">Tor</a> 或网络电话（VoIP）。</li>
+      <li>• 性少数青少年请注意：某些地区的父母可能有法律权利获取未成年人通话记录。</li>
+      <li>• 如果热线占线或无法接通，请尝试其他条目，或直接前往就近医院急诊。</li>
+      <li>• 不要在社交媒体上公开讨论自己正在使用的热线服务，以保护你的隐私和热线本身的安全。</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="bg-white/70 dark:bg-[rgba(10,10,12,0.8)] backdrop-blur-xl border-t border-slate-200/60 dark:border-white/80 py-8 relative z-10">
+<div class="max-w-5xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-3">
+<p class="text-xs text-slate-500 dark:text-slate-500">© 2026 Queer Resources Hub。数据来自社区整理，未经独立核验。</p>
+<div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-slate-600 dark:text-slate-400">
+<a class="hover:text-blue-600 transition-colors" href="privacy.html">隐私政策</a>
+<a class="hover:text-blue-600 transition-colors" href="https://github.com/Clipsule/Queer-Resources" rel="noopener noreferrer" target="_blank">开源参与</a>
+<a class="hover:text-blue-600 transition-colors" href="contributing.html">关于贡献</a>
+</div>
+</div>
+</footer>
+
+<script src="app.js"></script>
+<script>
+  // crisis 专用渲染（覆盖 app.js 的默认 renderCrisisGrid）
+  (function(){
+    // 等待 app.js 初始化完成后再运行，或直接立即执行（因为 resources.js 先加载了）
+    function renderCrisis() {
+      var resources = window.QUEER_RESOURCES || [];
+      var container = document.getElementById('crisisGrid');
+      if (!container) return;
+      var crisis = resources.filter(function (r) {
+        return (r.categories || []).indexOf('crisis') !== -1;
+      });
+      if (!crisis.length) {
+        container.innerHTML = '<p class="text-sm text-slate-400 dark:text-slate-500 py-8 text-center">暂无危机热线条目。请以机构官网为准。</p>';
+        return;
+      }
+      container.innerHTML = crisis.map(function (item) {
+        var href = '';
+        try { href = new URL(item.url || '').href; } catch (e) {}
+        var name = String(item.name || '');
+        var loc = String(item.location || '');
+        var note = String(item.note || '请以机构官网最新说明为准。');
+        var type = String(item.type || '');
+        var tags = (item.tags || []).slice(0, 2);
+        var tagHtml = tags.map(function(t){ return '<span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-rose-100/80 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-200/70 dark:border-rose-500/30">' + t + '</span>'; }).join('');
+        return '' +
+          '<a class="glass-card-pro p-6 block group relative" href="' + href + '" target="_blank" rel="noopener noreferrer">' +
+            '<div class="flex items-start gap-4">' +
+              '<div class="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-500/10 text-rose-500 dark:text-rose-300 flex items-center justify-center flex-shrink-0 shadow-sm">' +
+                '<span aria-hidden="true" class="material-symbols-outlined text-[22px]" style="font-variation-settings: \'FILL\' 1;">phone_in_talk</span>' +
+              '</div>' +
+              '<div class="flex-1 min-w-0">' +
+                '<h3 class="text-base md:text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-rose-600 dark:group-hover:text-rose-300 transition-colors leading-snug">' + name + '</h3>' +
+                '<div class="flex flex-wrap items-center gap-x-2 gap-y-1 mt-1 text-xs text-slate-500 dark:text-slate-400">' +
+                  (loc ? '<span>' + loc + '</span> <span class="text-slate-300 dark:text-slate-600">·</span> ' : '') +
+                  (type ? '<span>' + type + '</span>' : '') +
+                '</div>' +
+                '<p class="text-sm text-slate-600 dark:text-slate-400 mt-3 leading-relaxed">' + note + '</p>' +
+                (tagHtml ? '<div class="flex flex-wrap items-center gap-1.5 mt-3">' + tagHtml + '</div>' : '') +
+              '</div>' +
+              '<div class="flex-shrink-0 text-slate-400 group-hover:text-rose-500 transition-colors">' +
+                '<span aria-hidden="true" class="material-symbols-outlined">arrow_forward</span>' +
+              '</div>' +
+            '</div>' +
+          '</a>';
+      }).join('');
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderCrisis);
+    } else {
+      renderCrisis();
+    }
+  })();
+</script>
+</body></html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Queer Resources — 快速单元测试</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; padding: 24px; background: #f8fafc; color: #0f172a; }
+    h1 { font-size: 20px; margin-bottom: 16px; }
+    h2 { font-size: 14px; color: #64748b; margin: 12px 0 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .pass { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 6px; font-size: 13px; margin: 2px 0; }
+    .fail { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; padding: 4px 10px; border-radius: 6px; font-size: 13px; margin: 2px 0; }
+    .summary { padding: 10px 14px; border-radius: 8px; font-weight: 700; margin-top: 16px; }
+    .summary.pass { background: #dcfce7; }
+    .summary.fail { background: #fee2e2; }
+    code { background: #f1f5f9; padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>🧪 Queer Resources 快速单元测试</h1>
+  <p style="color:#64748b; font-size:13px; margin-bottom:16px;">本文件直接把 app.js 核心函数内联，在浏览器中运行，无需测试框架。</p>
+  <div id="results"></div>
+  <script>
+    // --- 把 app.js 核心逻辑内联 ---
+    const TAG_STYLES = [0,1,2,3,4,5,6];
+    const REGION_LABEL = { cn: '中国大陆', tw: '台湾', hk: '香港', intl: '国际', all: '全部' };
+    const storage = {
+      get() { try { return window.localStorage.getItem('_t'); } catch (e) { return null; } },
+      set(v) { try { window.localStorage.setItem('_t', v); } catch (e) {} }
+    };
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, function (ch) {
+        return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch];
+      });
+    }
+    function safeUrl(url) {
+      if (!url) return '';
+      if (url.startsWith('tel:')) {
+        const rest = url.substring(4);
+        if (/^[0-9+\-()\s]+$/.test(rest)) return url;
+        return '';
+      }
+      if (url.startsWith('mailto:')) {
+        const rest = url.substring(7);
+        if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rest.split('?')[0])) return url;
+        return '';
+      }
+      try {
+        const parsed = new URL(url);
+        if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return parsed.href;
+      } catch (e) {}
+      return '';
+    }
+    function groupResources(resources) {
+      const groups = [];
+      const index = new Map();
+      resources.forEach(function (item) {
+        const key = (item.subsection || item.section || '') + '|||' + (item.section || '');
+        if (!index.has(key)) { index.set(key, groups.length); groups.push({ section: item.section || '', subsection: item.subsection || '', items: [] }); }
+        groups[index.get(key)].items.push(item);
+      });
+      return groups;
+    }
+    function buildHash(state) {
+      const parts = [];
+      if (state.category !== 'all') parts.push('cat=' + encodeURIComponent(state.category));
+      if (state.type !== 'all') parts.push('type=' + encodeURIComponent(state.type));
+      if (state.region !== 'all') parts.push('reg=' + encodeURIComponent(state.region));
+      if (state.query) parts.push('q=' + encodeURIComponent(state.query));
+      return parts.length ? '#/?' + parts.join('&') : '';
+    }
+    function parseHash(hash) {
+      const m = hash.match(/^#\/\?(.*)$/);
+      if (!m) return null;
+      try {
+        const params = new URLSearchParams(m[1]);
+        return { category: params.get('cat') || 'all', type: params.get('type') || 'all', region: params.get('reg') || 'all', query: params.get('q') || '' };
+      } catch (e) { return null; }
+    }
+
+    // --- 测试框架 ---
+    const results = [];
+    function test(name, fn) {
+      try {
+        fn(); results.push({ name, pass: true });
+      } catch (e) { results.push({ name, pass: false, msg: e.message }); }
+    }
+    function assert(cond, msg) { if (!cond) throw new Error(msg || '断言失败'); }
+    function assertEq(a, b, msg) { if (a !== b) throw new Error((msg||'') + ' 期望 '+ JSON.stringify(b) +', 得到 '+ JSON.stringify(a)); }
+
+    // --- 开始测试 ---
+    test('safeUrl: http:// 接受', function () {
+      assertEq(safeUrl('http://example.com'), 'http://example.com/');
+    });
+    test('safeUrl: https:// 接受', function () {
+      assertEq(safeUrl('https://example.org/path?q=1'), 'https://example.org/path?q=1');
+    });
+    test('safeUrl: tel: 接受（带号码）', function () {
+      assertEq(safeUrl('tel:+86-10-12345678'), 'tel:+86-10-12345678');
+    });
+    test('safeUrl: tel: 拒绝（乱码）', function () {
+      assertEq(safeUrl('tel:abc<script>alert(1)</script>'), '');
+    });
+    test('safeUrl: mailto: 接受（合法邮箱）', function () {
+      assertEq(safeUrl('mailto:hello@example.com'), 'mailto:hello@example.com');
+    });
+    test('safeUrl: mailto: 拒绝（空）', function () {
+      assertEq(safeUrl('mailto:'), '');
+    });
+    test('safeUrl: javascript: 拒绝', function () {
+      assertEq(safeUrl('javascript:alert(1)'), '');
+    });
+    test('safeUrl: data: 拒绝', function () {
+      assertEq(safeUrl('data:text/html,<script>'), '');
+    });
+    test('safeUrl: file: 拒绝', function () {
+      assertEq(safeUrl('file:///etc/passwd'), '');
+    });
+    test('safeUrl: 空输入返回空', function () {
+      assertEq(safeUrl(''), '');
+    });
+    test('safeUrl: undefined 返回空', function () {
+      assertEq(safeUrl(undefined), '');
+    });
+
+    test('escapeHtml: &', function () { assertEq(escapeHtml('a&b'), 'a&amp;b'); });
+    test('escapeHtml: < >', function () { assertEq(escapeHtml('<img>'), '&lt;img&gt;'); });
+    test('escapeHtml: " 与 \'', function () { assertEq(escapeHtml('"a" \'b\''), '&quot;a&#39;b&#39;'); });
+    test('escapeHtml: XSS payload 转义', function () {
+      const out = escapeHtml('<script>alert("x")</script>');
+      assert(out.indexOf('<script>') === -1, '不应包含 <script>');
+      assert(out.indexOf('alert') !== -1, '应保留内容');
+    });
+    test('escapeHtml: 空输入', function () { assertEq(escapeHtml(''), ''); assertEq(escapeHtml(null), ''); });
+
+    test('groupResources: 同 subsection 合并', function () {
+      const data = [
+        { name: 'A', section: '二', subsection: '2.1' },
+        { name: 'B', section: '二', subsection: '2.1' },
+        { name: 'C', section: '三', subsection: '3.1' }
+      ];
+      const groups = groupResources(data);
+      assertEq(groups.length, 2, '应该有 2 个分组');
+      assertEq(groups[0].items.length, 2, '第一组应有 2 条');
+      assertEq(groups[1].items.length, 1, '第二组应有 1 条');
+    });
+
+    test('buildHash / parseHash 往返一致', function () {
+      const state = { category: 'wiki', type: 'clinical', region: 'cn', query: '跨性别 激素' };
+      const h = buildHash(state);
+      assert(h.indexOf('cat=wiki') !== -1, '应包含 cat=wiki');
+      assert(h.indexOf('q=') !== -1, '应包含 q=');
+      const parsed = parseHash(h);
+      assertEq(parsed.category, 'wiki');
+      assertEq(parsed.type, 'clinical');
+      assertEq(parsed.region, 'cn');
+      assertEq(parsed.query, '跨性别 激素');
+    });
+
+    test('buildHash: all 状态产生空 hash', function () {
+      const h = buildHash({ category: 'all', type: 'all', region: 'all', query: '' });
+      assertEq(h, '');
+    });
+
+    test('parseHash: 非法格式返回 null', function () {
+      assert(parseHash(''), '');
+      assertEq(parseHash('#hello'), null);
+    });
+
+    // --- 渲染 ---
+    const passed = results.filter(r => r.pass).length;
+    const failed = results.filter(r => !r.pass).length;
+    const container = document.getElementById('results');
+    results.forEach(r => {
+      const div = document.createElement('div');
+      div.className = r.pass ? 'pass' : 'fail';
+      div.textContent = (r.pass ? '✅ ' : '❌ ') + r.name + (r.msg ? ' — ' + r.msg : '');
+      container.appendChild(div);
+    });
+    const summary = document.createElement('div');
+    summary.className = 'summary ' + (failed === 0 ? 'pass' : 'fail');
+    summary.textContent = '总计 ' + results.length + ' 项 · ✅ ' + passed + ' 通过 · ❌ ' + failed + ' 失败';
+    container.appendChild(summary);
+  </script>
+</body>
+</html>

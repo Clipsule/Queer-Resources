@@ -1,0 +1,55 @@
+Queer Resources · 酷儿资源库
+
+本项目包含两类内容，分别适用不同许可。
+
+---
+
+## 一、内容许可（CC BY-SA 4.0）
+
+适用范围：
+- `docs/resources.md` 中的社区索引条目
+- HTML 页面中的文案（不含代码）
+- Markdown 文档中的文字说明
+
+本项目内容以 **Creative Commons Attribution-ShareAlike 4.0 International**（署名-相同方式共享 4.0 国际版）许可发布。
+
+您可以自由地：
+- **共享** — 在任何媒介以任何形式复制、发行本作品
+- **演绎** — 以任何方式改编、转换或基于本作品进行构建
+
+只要您遵守以下许可条件：
+- **署名** — 您必须给出适当的署名、提供许可链接、并说明是否进行了改动
+- **相同方式共享** — 如果您对本作品进行了改编、转换或基于它进行构建，您必须使用相同或兼容的许可来分发您的作品
+
+完整许可文本：<https://creativecommons.org/licenses/by-sa/4.0/legalcode>
+
+---
+
+## 二、代码许可（MIT）
+
+适用范围：
+- `scripts/parse_resources.py`
+- `app.js`
+- HTML 模板中的结构代码（非文案部分）
+
+MIT License
+
+Copyright (c) 2026 Queer Resources Hub Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

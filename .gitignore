@@ -1,3 +1,30 @@
-/.trae
-/.trae-html-share-packages
-/tests
+# IDE / editor
+/.trae/
+/.trae-html-share-packages/
+/.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Build artifacts
+node_modules/
+dist/
+build/
+
+# Env secrets
+.env
+.env.local
+
+# Generated resources.js/json (reproducible; commit only when intentional)
+# Keep these tracked for non-Python deployment environments
+# /resources.js
+# /resources.json

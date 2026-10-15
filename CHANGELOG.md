@@ -4,9 +4,23 @@
 
 ## Unreleased
 
+### 文件系统重构（对齐 MtF.wiki 仓库风格）
+
+- **删除** `_patch_html.py`（已废弃：index.html 直接 `<script src="app.js">`，不再需要 patch inline script）
+- **删除** `resources.json`（app.js 运行时不引用，parse_resources.py 按需生成即可）
+- **删除** `.trae/`、`.trae-html-share-packages/`（IDE 产物，已加入 .gitignore）
+- **重命名** `Resources and Guidelines Document/` → `docs/`（去掉空格和混合大小写，符合 URL/CLI 惯例）
+- **移动** `parse_resources.py` → `scripts/parse_resources.py`（工具脚本与运行时分离），PROJECT_ROOT 路径修正为 `SCRIPT_DIR.parent`
+- **新增** `README.md`（项目总览 + 目录树 + 技术栈表）
+- **新增** `LICENSE`（内容 CC BY-SA 4.0 + 代码 MIT 双许可）
+- **新增** `.editorconfig`
+- **更新** `.gitignore`（保留 tests/ 追踪，新增 .trae/、__pycache__/）
+- **更新** CONTRIBUTING.md、contributing.html 中所有旧路径引用
+
 ### 已规划
 
 - [ ] 定期链接有效性自动检查（CI）
+- [ ] 在 parse_resources.py 中增加 `phone` 字段提取（配合 crisisCardHtml 真实显示电话）
 - [ ] 新增 Sitemap 生成脚本
 - [ ] 添加英文界面（i18n 基础架构）
 - [ ] 间性人 / 无性恋专项资源扩充
