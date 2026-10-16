@@ -357,10 +357,10 @@
     { aliases: ['ftm', '女转男', '跨男', '变男', '男跨'], targets: ['跨性别男性', '男性倾向', 'transmasculine'] },
     // group 4: 非二元
     { aliases: ['非二元', 'nb', 'non-binary', 'nonbinary', '性别酷儿', '多元性别', '性别流动', 'genderfluid', 'enby'], targets: ['非二元', '性别多元', '性别流动'] },
-    // group 5: 拉拉
+   // group 5: 拉拉
     { aliases: ['拉拉', 'les', 'lesbian', '女同', 'lesbi', '百合', '蕾丝边', '蕾丝', '拉子', '橘里橘气'], targets: ['女同性恋', 'lesbian'] },
     // group 6: gay（注意：移除"同志"，因为中文"同志"也指一般朋友）
-    { aliases: ['gay', '基佬', '男同', 'homosexual', '给佬', '搞基', '玻璃', '断背', '龙阳'], targets: ['男同性恋', 'gay'] },
+    { aliases: ['gay', '基佬', '男同', 'homosexual', '给佬', '搞基', '玻璃', '断背', '龙阳'], targets: ['男同性恋', 'gay'] },  
     // group 7: 双
     { aliases: ['双性恋', 'bi', 'bisexual', '双性'], targets: ['双性恋', 'bisexual'] },
     // group 8: 无性
@@ -558,7 +558,7 @@
     document.getElementById('allView').classList.add('hidden');
     setActiveNav('home');
     // 关键：回到首页顶部，而不是停在之前的滚动位置
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0); //把原本的值换成scollTo
     // 让键盘焦点落在 hero 搜索框，方便用户直接搜索
     const hero = document.getElementById('searchInput');
     if (hero) { try { hero.focus({ preventScroll: true }); } catch (e) { try { hero.focus(); } catch (_) {} } }

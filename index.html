@@ -14,7 +14,8 @@
 <link rel="apple-touch-icon" href="assets/logo-sub.png" sizes="180x180"/>
 <meta property="og:image" content="assets/logo-main.png"/>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="assets/icons.css" rel="stylesheet"/>
+<link href="assets/fonts/material-symbols-outlined.woff2" rel="preload" as="font" type="font/woff2" crossorigin=""/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=Noto+Sans+SC:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
@@ -50,7 +51,6 @@
     }
   </script>
 <style>
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; display: inline-block; vertical-align: middle; line-height: 1; }
     @keyframes float-slow { 0%, 100% { transform: translate(0px, 0px) scale(1); } 33% { transform: translate(30px, -45px) scale(1.08); } 66% { transform: translate(-25px, 20px) scale(0.95); } }
     @keyframes float-reverse { 0%, 100% { transform: translate(0px, 0px) scale(1); } 33% { transform: translate(-35px, 30px) scale(1.1); } 66% { transform: translate(25px, -30px) scale(0.92); } }
     .animate-aurora-1 { animation: float-slow 16s ease-in-out infinite alternate; }
@@ -67,14 +67,20 @@
     .search-glow-container:focus-within { box-shadow: 0 16px 44px rgba(91, 141, 239, 0.22), 0 0 0 2px rgba(91, 141, 239, 0.35); background: rgba(255, 255, 255, 0.96); }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
     :root { --bg-base: #FDFDFD; --text-primary: #1D1D1F; --text-secondary: #515154; --text-muted: #86868B; --card-bg: rgba(255, 255, 255, 0.7); --card-border: rgba(255, 255, 255, 0.9); --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.04); --card-hover-shadow: 0 16px 48px rgba(0, 0, 0, 0.08); --accent-blue: #5B8DEF; --accent-pink: #F08BB4; --accent-purple: #9D7BEA; --accent-green: #4CAF93; }
-    .dark, [data-theme="dark"] { --bg-base: #0A0A0C; --text-primary: #F5F5F7; --text-secondary: #A1A1A6; --text-muted: #6E6E73; --card-bg: rgba(30, 30, 35, 0.6); --card-border: rgba(255, 255, 255, 0.08); --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); --card-hover-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.15); --accent-blue: #7AA5FF; --accent-pink: #FF9EC5; --accent-purple: #B898FF; --accent-green: #5ED8B5; }
+    .dark, [data-theme="dark"] { color-scheme: dark; --bg-base: #0A0A0C; --text-primary: #F5F5F7; --text-secondary: #A1A1A6; --text-muted: #6E6E73; --card-bg: rgba(30, 30, 35, 0.6); --card-border: rgba(255, 255, 255, 0.08); --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); --card-hover-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.15); --accent-blue: #7AA5FF; --accent-pink: #FF9EC5; --accent-purple: #B898FF; --accent-green: #5ED8B5; }
     body { background-color: var(--bg-base); color: var(--text-primary); }
+    /* 覆盖 Tailwind 生成的 bg-[#F8F9FD] / text-text-primary（类选择器特异性更高，必须 !important）
+       否则 dark 模式下页面底仍是浅色，白字标题会"消失" */
+    .dark body, [data-theme="dark"] body { background-color: var(--bg-base) !important; color: var(--text-primary) !important; }
     .glass-card-pro { background: var(--card-bg); border: 1px solid var(--card-border); box-shadow: var(--card-shadow); }
     .glass-card-pro:hover { box-shadow: var(--card-hover-shadow); }
     .dark .glass-card-pro:hover { border-color: rgba(255, 255, 255, 0.15); }
     .dark .text-slate-900, .dark h1, .dark h2, .dark h3 { color: var(--text-primary) !important; }
     .dark .text-slate-600, .dark .text-slate-500, .dark .text-slate-700 { color: var(--text-secondary) !important; }
-    .dark .bg-white\/70, .dark .bg-white\/80, .dark .bg-white\/85 { background-color: rgba(30, 30, 35, 0.55) !important; }
+    .dark .text-slate-800 { color: var(--text-primary) !important; }
+    .dark .bg-white\/60, .dark .bg-white\/70, .dark .bg-white\/80, .dark .bg-white\/85 { background-color: rgba(30, 30, 35, 0.55) !important; }
+    .dark .bg-slate-100, .dark .bg-slate-100\/90 { background-color: rgba(255, 255, 255, 0.08) !important; }
+    .dark .border-white\/80, .dark .border-white\/85, .dark .border-white\/90, .dark .border-white\/95 { border-color: rgba(255, 255, 255, 0.12) !important; }
     .dark header { background: rgba(10, 10, 12, 0.75) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
     .dark .aurora-blob { opacity: 0.45; }
     .dark .search-glow-container, .dark input, .dark select, .dark .glass-pill { background: rgba(30, 30, 35, 0.65) !important; border-color: rgba(255, 255, 255, 0.1) !important; color: var(--text-primary) !important; }
@@ -90,6 +96,19 @@
     .dark footer { background: rgba(10, 10, 12, 0.8) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
     .dark .glass-crisis-card { background: rgba(30, 30, 35, 0.65) !important; border-color: rgba(255, 255, 255, 0.1) !important; }
     .dark .border-slate-200\/60, .dark .border-slate-200\/70 { border-color: rgba(255, 255, 255, 0.08) !important; }
+    /* 安全警示横幅：dark 模式下改为深色底 + 浅色文字，避免浅粉块突兀/刺眼 */
+    .dark #safety-banner { background: rgba(255, 255, 255, 0.06) !important; border-color: rgba(255, 255, 255, 0.1) !important; color: #F0CDD4 !important; }
+    .dark #safety-banner strong, .dark #safety-banner .text-rose-800 { color: #FFC9CF !important; }
+    .dark #safety-banner .text-rose-700 { color: #FFB3C0 !important; }
+    .dark #safety-banner .text-rose-950, .dark #safety-banner p { color: #F0CDD4 !important; }
+    .dark #safety-banner button:hover { background: rgba(255, 255, 255, 0.12) !important; }
+    /* 强调色在 dark 下提亮为同色相浅色调，保持与浅色模式一致的观感 */
+    .dark .text-orange-800 { color: #FFC49B !important; }
+    .dark .text-fuchsia-700 { color: #F5B8FF !important; }
+    .dark .text-sky-700 { color: #A5DDFF !important; }
+    .dark .text-teal-800 { color: #A8E6D8 !important; }
+    .dark .text-blue-600 { color: #7AA5FF !important; }
+    .dark .text-rose-600 { color: #FF9EC5 !important; }
     #resourceGrid [data-group] { content-visibility: auto; contain-intrinsic-size: auto 400px; }
     :focus-visible { outline: 2px solid var(--accent-blue); outline-offset: 2px; }
     .dark :focus-visible { outline-color: #7AA5FF; }
@@ -105,8 +124,7 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* ===== CLS 修复：固定预分配尺寸，消除首屏布局抖动 ===== */
-    /* 1) Material Symbols：强制 1em × 1em inline-flex，字体加载前后占位宽度一致 */
-    .material-symbols-outlined { width: 1em !important; height: 1em !important; display: inline-flex !important; align-items: center; justify-content: center; overflow: hidden; }
+    /* 1) 图标字体由 assets/icons.css 统一处理（自托管子集 + 失败兜底） */
     /* 2) 空容器预占位：JS 渲染前就保留足够高度，innerHTML 不会让下方内容跳动 */
     #featuredGrid { min-height: 420px; }
     #crisisGrid { min-height: 200px; }
@@ -160,7 +178,7 @@
 <span>按 ⌘K 快速检索条目...</span> <!--建议添加一下Windows按键，例如Ctrl+k或Win+k键等-->
 </button>
 <button aria-label="切换深色/浅色模式" aria-pressed="false" class="p-2 rounded-xl text-slate-600 hover:bg-white/80 transition-all border border-transparent hover:border-white/80" id="themeToggleBtn" type="button">
-<span aria-hidden="true" class="material-symbols-outlined text-[20px]">dark_mode</span>
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]" data-emoji="🌙">dark_mode</span>
 </button>
 <a aria-label="紧急求助" class="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 hover:opacity-95 text-white px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_4px_16px_rgba(244,63,94,0.35)] transition-all active:scale-[0.98] border border-white/40" href="crisis.html" rel="noopener noreferrer">
 <span aria-hidden="true" class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">sos</span>
@@ -184,7 +202,7 @@
       </div>
       <div class="flex items-center gap-3 flex-shrink-0 ml-3">
         <a class="text-xs font-semibold text-rose-700 hover:text-rose-900 underline underline-offset-2 flex items-center gap-1 whitespace-nowrap" href="#crisis-support"><span>展开求助热线</span><span aria-hidden="true" class="material-symbols-outlined text-xs">arrow_forward</span></a>
-        <button aria-label="关闭安全提示" class="text-rose-800 hover:bg-rose-200/50 p-1 rounded-full flex items-center justify-center transition-colors" data-action="close-safety-banner" type="button"><span aria-hidden="true" class="material-symbols-outlined text-sm">close</span></button>
+        <button aria-label="关闭安全提示" class="text-rose-800 hover:bg-rose-200/50 p-1 rounded-full flex items-center justify-center transition-colors" data-action="close-safety-banner" type="button"><span aria-hidden="true" class="material-symbols-outlined text-sm" data-emoji="✕">close</span></button>
       </div>
     </div>
   </section>
@@ -228,7 +246,7 @@
     <div class="flex items-center justify-between mb-6">
       <div>
         <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight">精选资源</h2>
-        <p class="text-sm text-slate-500 mt-1">这里展示了部分常用的资源条目。想查看全部 <span id="heroResourceHint">…</span> 条？点击右侧按钮。</p>
+        <p class="text-sm text-slate-500 mt-1">这里展示了部分常用的资源条目，点击查看全部 <span id="heroResourceHint">…</span> 条？点击右侧按钮。</p>
       </div>
       <button data-action="show-all" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-5 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 shadow-[0_6px_18px_rgba(37,99,235,0.3)] transition-all active:scale-[0.98] flex-shrink-0" type="button">
         <span aria-hidden="true" class="material-symbols-outlined text-lg">list</span><span>浏览全部资源</span>
@@ -310,7 +328,7 @@
         <span aria-hidden="true" class="material-symbols-outlined text-slate-400 text-lg pl-2">search</span>
         <input aria-label="在全部资源中搜索" class="flex-grow min-w-[200px] py-2 px-3 rounded-xl bg-white/85 border border-slate-200/60 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-400 transition-all" id="searchInputAll" placeholder="搜索资源条目、疾病代码、HRT指南..." type="text" autocomplete="off"/>
         <button aria-label="清除搜索" class="text-slate-400 hover:text-slate-600 transition-colors text-sm hidden" id="searchClearAll" type="button">
-          <span aria-hidden="true" class="material-symbols-outlined text-base">close</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-base" data-emoji="✕">close</span>
         </button>
       </div>
       <div class="flex flex-wrap items-center gap-2 text-xs">
@@ -331,7 +349,7 @@
       </div>
       <div class="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-white/80 px-3 py-1.5 rounded-full border border-white/90 shadow-sm" id="visibleCountLabel">
         <span aria-hidden="true" class="material-symbols-outlined text-sm text-blue-600">sort</span>
-        <span>按资料文档章节顺序排列</span>
+        <span>按照资料文档章节顺序排列</span>
       </div>
     </div>
 

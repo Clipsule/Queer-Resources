@@ -12,12 +12,12 @@
 <script>
   tailwind.config = { darkMode: "class", theme: { extend: { colors: { "bg-base": "#FDFDFD" }, fontFamily: { sans: ["Inter", "Noto Sans SC", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"] } } } };
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="assets/icons.css" rel="stylesheet"/>
+<link href="assets/fonts/material-symbols-outlined.woff2" rel="preload" as="font" type="font/woff2" crossorigin=""/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
 <style>
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; width: 1em; height: 1em; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
     .aurora-blob { filter: blur(110px); }
     .rainbow-shimmer-text { background: linear-gradient(135deg, #FF5376 0%, #A855F7 50%, #2563EB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .glass-card-pro { background: rgba(255, 255, 255, 0.62); backdrop-filter: blur(28px) saturate(145%); -webkit-backdrop-filter: blur(28px) saturate(145%); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 10px 36px rgba(31, 38, 135, 0.05); transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1); }
@@ -27,10 +27,13 @@
     .nav-item.nav-active::after { content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px; background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6); border-radius: 2px; }
     .dark .nav-item.nav-active { color: #7AA5FF !important; }
     .dark body { background-color: #0A0A0C; color: #F5F5F7; }
+    .dark, [data-theme="dark"] { color-scheme: dark; }
     .dark header { background: rgba(10, 10, 12, 0.75) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
     .dark .glass-card-pro { background: rgba(30, 30, 35, 0.6); border-color: rgba(255, 255, 255, 0.1); }
     .dark .aurora-blob { opacity: 0.45; }
     .dark footer { background: rgba(10, 10, 12, 0.8) !important; border-color: rgba(255, 255, 255, 0.08) !important; }
+    .dark .text-blue-600 { color: #7AA5FF !important; }
+    .dark .text-rose-600 { color: #FF9EC5 !important; }
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
     body { font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif; }
     pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
@@ -80,7 +83,7 @@
 </div>
 <div class="flex items-center gap-2.5">
 <button aria-label="切换深色/浅色模式" aria-pressed="false" class="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-white/80 dark:hover:bg-white/10 transition-all border border-transparent hover:border-white/80 dark:hover:border-white/10" id="themeToggleBtn" type="button">
-<span aria-hidden="true" class="material-symbols-outlined text-[20px]">dark_mode</span>
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]" data-emoji="🌙">dark_mode</span>
 </button>
 </div>
 </div>
@@ -243,14 +246,22 @@ git push</pre></li>
   (function(){
     var btn = document.getElementById('themeToggleBtn');
     if (!btn) return;
-    var prefersDark = document.documentElement.classList.contains('dark');
-    btn.setAttribute('aria-pressed', prefersDark ? 'true' : 'false');
-    btn.querySelector('.material-symbols-outlined').textContent = prefersDark ? 'light_mode' : 'dark_mode';
+    var icon = btn.querySelector('.material-symbols-outlined');
+    function syncIcon() {
+      var isDark = document.documentElement.classList.contains('dark');
+      btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      if (icon) {
+        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+        icon.setAttribute('data-emoji', isDark ? '☀️' : '🌙');
+      }
+      var metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) metaTheme.setAttribute('content', isDark ? '#0A0A0C' : '#FDFDFD');
+    }
+    syncIcon();
     btn.addEventListener('click', function(){
       var isDark = !document.documentElement.classList.contains('dark');
       document.documentElement.classList.toggle('dark', isDark);
-      btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-      btn.querySelector('.material-symbols-outlined').textContent = isDark ? 'light_mode' : 'dark_mode';
+      syncIcon();
       try { localStorage.setItem('qr-theme', isDark ? 'dark' : 'light'); } catch(e){}
     });
     // ⌘K / Ctrl+K 返回首页
@@ -259,6 +270,19 @@ git push</pre></li>
         e.preventDefault(); window.location.href = 'index.html';
       }
     });
+  })();
+
+  // 图标字体兜底：字体加载失败时隐藏连字原文，启用 emoji 兜底（assets/icons.css）
+  (function () {
+    try {
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          if (!document.fonts.check('24px "Material Symbols Outlined"')) {
+            document.documentElement.classList.add('no-material-icons');
+          }
+        });
+      }
+    } catch (e) {}
   })();
 </script>
 </body></html>

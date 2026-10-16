@@ -12,12 +12,12 @@
 <script>
   tailwind.config = { darkMode: "class", theme: { extend: { colors: { "bg-base": "#FDFDFD" }, fontFamily: { sans: ["Inter", "Noto Sans SC", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"] } } } };
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="assets/icons.css" rel="stylesheet"/>
+<link href="assets/fonts/material-symbols-outlined.woff2" rel="preload" as="font" type="font/woff2" crossorigin=""/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet"/>
 <style>
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; width: 1em; height: 1em; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
     .aurora-blob { filter: blur(110px); }
     .rainbow-shimmer-text { background: linear-gradient(135deg, #FF5376 0%, #A855F7 50%, #2563EB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .glass-card-pro { background: rgba(255, 255, 255, 0.62); backdrop-filter: blur(28px) saturate(145%); -webkit-backdrop-filter: blur(28px) saturate(145%); border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 24px; box-shadow: 0 10px 36px rgba(31, 38, 135, 0.05); transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1); }
@@ -79,7 +79,7 @@
 </div>
 <div class="flex items-center gap-2.5">
 <button aria-label="切换深色/浅色模式" aria-pressed="false" class="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-white/80 dark:hover:bg-white/10 transition-all border border-transparent hover:border-white/80 dark:hover:border-white/10" id="themeToggleBtn" type="button">
-<span aria-hidden="true" class="material-symbols-outlined text-[20px]">dark_mode</span>
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]" data-emoji="🌙">dark_mode</span>
 </button>
 </div>
 </div>
@@ -189,7 +189,7 @@
                 (tagHtml ? '<div class="flex flex-wrap items-center gap-1.5 mt-3">' + tagHtml + '</div>' : '') +
               '</div>' +
               '<div class="flex-shrink-0 text-slate-400 group-hover:text-rose-500 transition-colors">' +
-                '<span aria-hidden="true" class="material-symbols-outlined">arrow_forward</span>' +
+                '<span aria-hidden="true" class="material-symbols-outlined" data-emoji="→">arrow_forward</span>' +
               '</div>' +
             '</div>' +
           '</a>';
@@ -208,8 +208,14 @@
     if (!btn) return;
     var icon = btn.querySelector('.material-symbols-outlined');
     function syncIcon() {
-      if (icon) icon.textContent = document.documentElement.classList.contains('dark') ? 'light_mode' : 'dark_mode';
-      btn.setAttribute('aria-pressed', document.documentElement.classList.contains('dark') ? 'true' : 'false');
+      var isDark = document.documentElement.classList.contains('dark');
+      if (icon) {
+        icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+        icon.setAttribute('data-emoji', isDark ? '☀️' : '🌙');
+      }
+      btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+      var metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) metaTheme.setAttribute('content', isDark ? '#0A0A0C' : '#FDFDFD');
     }
     syncIcon();
     btn.addEventListener('click', function () {
@@ -218,6 +224,19 @@
       try { localStorage.setItem('qr-theme', isDark ? 'dark' : 'light'); } catch (e) {}
       syncIcon();
     });
+  })();
+
+  // 图标字体兜底：字体加载失败时隐藏连字原文，启用 emoji 兜底（assets/icons.css）
+  (function () {
+    try {
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          if (!document.fonts.check('24px "Material Symbols Outlined"')) {
+            document.documentElement.classList.add('no-material-icons');
+          }
+        });
+      }
+    } catch (e) {}
   })();
 </script>
 </body></html>

@@ -1,0 +1,58 @@
+/* ===== 自托管 Material Symbols Outlined（网站用到的 34 个图标连字子集）=====
+   字体来源: Google Fonts Material Symbols Outlined (v377)
+   子集构建: python scripts/build_icon_font.py
+   新增图标时: 把连字名加进 scripts/build_icon_font.py 的 ICONS 列表后重新生成。
+   ====================================================================== */
+@font-face {
+  font-family: 'Material Symbols Outlined';
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: block;
+  src: url('fonts/material-symbols-outlined.woff2') format('woff2');
+}
+
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  /* 适配移动端/老内核：不做 1em 硬锁与 overflow:hidden，避免宽字形被裁切 */
+  min-width: 1em;
+  min-height: 1em;
+  vertical-align: middle;
+  text-align: center;
+  overflow: visible;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== 字体加载失败兜底（字体被拦截 / 老 WebView 不支持可变字体）=====
+   JS 检测后给 <html> 加 no-material-icons class:
+   1) 隐藏连字原文（如 "home"），避免英文单词直接暴露
+   2) 带 data-emoji 的纯图标位显示 emoji 兜底 */
+.no-material-icons .material-symbols-outlined {
+  visibility: hidden;
+}
+.no-material-icons .material-symbols-outlined[data-emoji] {
+  position: relative;
+}
+.no-material-icons .material-symbols-outlined[data-emoji]::after {
+  content: attr(data-emoji);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: visible;
+  font-family: inherit;
+  font-style: normal;
+  font-variation-settings: normal;
+}

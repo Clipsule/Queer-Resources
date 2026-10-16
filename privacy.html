@@ -12,9 +12,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link href="assets/icons.css" rel="stylesheet" />
+  <link href="assets/fonts/material-symbols-outlined.woff2" rel="preload" as="font" type="font/woff2" crossorigin=""/>
   <style>
     body { font-family: 'Inter', 'Noto Sans SC', system-ui, -apple-system, sans-serif; }
+    .dark { color-scheme: dark; }
     .rainbow-shimmer-text { background: linear-gradient(135deg, #FF5376 0%, #A855F7 50%, #2563EB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     .aurora-blob { filter: blur(110px); opacity: 0.55; }
     @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
@@ -46,7 +48,7 @@
       <nav class="flex items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
         <a href="index.html" class="hover:text-pink-600 transition-colors">← 返回首页</a>
         <button id="themeToggleBtn" aria-label="切换深色/浅色模式" aria-pressed="false" class="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 transition-all border border-transparent hover:border-slate-200/60 dark:hover:border-white/10" type="button">
-          <span aria-hidden="true" class="material-symbols-outlined text-[20px]">dark_mode</span>
+          <span aria-hidden="true" class="material-symbols-outlined text-[20px]" data-emoji="🌙">dark_mode</span>
         </button>
       </nav>
     </div>
@@ -122,14 +124,22 @@
     (function(){
       var btn = document.getElementById('themeToggleBtn');
       if (!btn) return;
-      var prefersDark = document.documentElement.classList.contains('dark');
-      btn.setAttribute('aria-pressed', prefersDark ? 'true' : 'false');
-      btn.querySelector('.material-symbols-outlined').textContent = prefersDark ? 'light_mode' : 'dark_mode';
+      var icon = btn.querySelector('.material-symbols-outlined');
+      function syncIcon() {
+        var isDark = document.documentElement.classList.contains('dark');
+        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+        if (icon) {
+          icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+          icon.setAttribute('data-emoji', isDark ? '☀️' : '🌙');
+        }
+        var metaTheme = document.querySelector('meta[name="theme-color"]');
+        if (metaTheme) metaTheme.setAttribute('content', isDark ? '#0A0A0C' : '#FDFDFD');
+      }
+      syncIcon();
       btn.addEventListener('click', function(){
         var isDark = !document.documentElement.classList.contains('dark');
         document.documentElement.classList.toggle('dark', isDark);
-        btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-        btn.querySelector('.material-symbols-outlined').textContent = isDark ? 'light_mode' : 'dark_mode';
+        syncIcon();
         try { localStorage.setItem('qr-theme', isDark ? 'dark' : 'light'); } catch(e){}
       });
       // ⌘K / Ctrl+K 返回首页
@@ -139,6 +149,19 @@
           window.location.href = 'index.html';
         }
       });
+    })();
+
+    // 图标字体兜底：字体加载失败时隐藏连字原文，启用 emoji 兜底（assets/icons.css）
+    (function () {
+      try {
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(function () {
+            if (!document.fonts.check('24px "Material Symbols Outlined"')) {
+              document.documentElement.classList.add('no-material-icons');
+            }
+          });
+        }
+      } catch (e) {}
     })();
   </script>
 </body>
