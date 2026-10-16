@@ -84,6 +84,16 @@ PR 在合入前需满足以下全部条件：
   # 然后访问 http://localhost:8080
   ```
 
+## 7. 添加搜索同义词 / 黑话 / 俚语
+
+很多用户会用社群黑话（如 "拉拉"、"木桶饭"、"吃药"、"mtf"）来搜，但 resources.js 的 tag 用的是正式术语。我们在搜索层做了一层**同义词展开**，贡献流程：
+
+1. 编辑 [`docs/search-aliases.md`](docs/search-aliases.md)
+2. 在表格末尾新增一行：`aliases` 列填用户可能搜的词，`targets` 列填 resources.js 里**实际存在**的 tag / name / subsection / type 片段（小写）
+3. 提 PR
+
+> 合入后维护者会同步更新 `app.js` 里的 `QUERY_ALIAS_GROUPS` 常量（结构必须保持一致：`{aliases: [...], targets: [...]}`）。详细规则见 MD 文件顶部说明。
+
 ## 8. 致谢
 
 每一条 PR、每一个 Issue、每一次反馈都在让这个资源库更可靠。谢谢你。

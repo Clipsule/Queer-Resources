@@ -5,7 +5,7 @@
 <meta content="性少数心理危机与同行支持热线 · 免费、严格保密。如您处于即时危险，请直接拨打当地急救电话。" name="description"/>
 <meta content="Queer Resources" name="author"/>
 <meta content="#FDFDFD" name="theme-color"/>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23FF5376'/%3E%3Cstop offset='50%25' stop-color='%23A855F7'/%3E%3Cstop offset='100%25' stop-color='%232563EB'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-size='56' fill='white' font-family='Inter,sans-serif' font-weight='800'%3EQ%3C/text%3E%3C/svg%3E"/>
+<link rel="icon" type="image/png" href="images/logo-side.png"/>
 <title>求助热线 | Queer Resources</title>
 <script src="resources.js"></script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
@@ -59,9 +59,7 @@
 <div class="w-full px-4 md:px-8 max-w-7xl mx-auto flex items-center justify-between h-16">
 <div class="flex items-center gap-6">
 <a class="text-lg font-bold text-primary tracking-tight flex items-center gap-3 group" href="index.html" data-nav="home">
-<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-500 to-blue-500 flex items-center justify-center text-white shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform duration-200">
-<span aria-hidden="true" class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">diversity_3</span>
-</div>
+<img alt="Queer Resources 品牌 logo" aria-hidden="true" class="w-9 h-9 rounded-xl object-contain group-hover:scale-105 transition-transform duration-200 drop-shadow-sm" src="images/logo-side.png"/>
 <span class="rainbow-shimmer-text font-extrabold text-[19px] tracking-tight">Queer Resources</span>
 </a>
 <nav class="hidden lg:flex items-center space-x-6 text-sm ml-4 font-medium text-slate-600 dark:text-slate-400" aria-label="主导航">
@@ -152,11 +150,9 @@
 </div>
 </footer>
 
-<script src="app.js"></script>
 <script>
-  // crisis 专用渲染（覆盖 app.js 的默认 renderCrisisGrid）
-  (function(){
-    // 等待 app.js 初始化完成后再运行，或直接立即执行（因为 resources.js 先加载了）
+  // crisis 专用渲染（独立页面，不加载 app.js）
+  (function () {
     function renderCrisis() {
       var resources = window.QUEER_RESOURCES || [];
       var container = document.getElementById('crisisGrid');
@@ -204,6 +200,24 @@
     } else {
       renderCrisis();
     }
+  })();
+
+  // 主题切换（与 privacy.html / contributing.html 一致）
+  (function () {
+    var btn = document.getElementById('themeToggleBtn');
+    if (!btn) return;
+    var icon = btn.querySelector('.material-symbols-outlined');
+    function syncIcon() {
+      if (icon) icon.textContent = document.documentElement.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+      btn.setAttribute('aria-pressed', document.documentElement.classList.contains('dark') ? 'true' : 'false');
+    }
+    syncIcon();
+    btn.addEventListener('click', function () {
+      var isDark = !document.documentElement.classList.contains('dark');
+      document.documentElement.classList.toggle('dark', isDark);
+      try { localStorage.setItem('qr-theme', isDark ? 'dark' : 'light'); } catch (e) {}
+      syncIcon();
+    });
   })();
 </script>
 </body></html>

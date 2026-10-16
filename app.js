@@ -332,18 +332,159 @@
     });
   }
 
+  // ---- 搜索同义词展开 ----
+  // 权威来源: docs/search-aliases.md（社区编辑的 Markdown 表格）
+  // 生成方式: python3 scripts/generate_alias_js.py  自动从 MD 同步
+  // 匹配规则: expandTerm() 对每个用户输入的词，返回 [原词, 所有 targets 小写]，再对卡片 data-search 做 OR 匹配
+  /*BEGIN_ALIAS*/
+  // 所有 targets 经过精准性筛选：跨 70+ 条目的通用词已移除
+  // 资源来源: docs/search-aliases.md → 由 python3 scripts/generate_alias_js.py 生成
+  const QUERY_ALIAS_GROUPS = [
+    // group 1: trans 统称 → 跨性别总称（70 条，但这是"跨性别统称"的语义定义，可接受）
+    { aliases: ['跨性别', '跨性', 'trans', '变性', '人妖', '性别转换', '性别再分配', '性别确认', '트랜스젠더'], targets: ['跨性别总称'] },
+    // group 2: MtF → 精准 MtF tag（5+4+ 条，与 FtM 零交集）
+    { aliases: ['mtf', '男转女', '跨女', '变女', '女跨', '伪娘', '娘炮', '飞天猫', '满天星', '药娘', '术娘', '男の娘', '뉴하프'], targets: ['跨性别女性', '女性倾向', 'transfeminine'] },
+    // group 3: FtM → 精准 FtM tag（6+4+ 条，与 MtF 零交集）
+    { aliases: ['ftm', '女转男', '跨男', '变男', '男跨'], targets: ['跨性别男性', '男性倾向', 'transmasculine'] },
+    // group 4: 非二元
+    { aliases: ['非二元', 'nb', 'non-binary', 'nonbinary', '性别酷儿', '多元性别', '性别流动', 'genderfluid', 'enby'], targets: ['非二元', '性别多元', '性别流动'] },
+    // group 5: 拉拉
+    { aliases: ['拉拉', 'les', 'lesbian', '女同', 'lesbi', '百合', '蕾丝边', '蕾丝', '拉子', '橘里橘气'], targets: ['女同性恋', 'lesbian'] },
+    // group 6: gay（注意：移除"同志"，因为中文"同志"也指一般朋友）
+    { aliases: ['gay', '基佬', '男同', 'homosexual', '给佬', '搞基', '玻璃', '断背', '龙阳'], targets: ['男同性恋', 'gay'] },
+    // group 7: 双
+    { aliases: ['双性恋', 'bi', 'bisexual', '双性'], targets: ['双性恋', 'bisexual'] },
+    // group 8: 无性
+    { aliases: ['无性恋', 'ace', 'asexual', '无性', '灰无性', '灰色无性恋'], targets: ['无性恋', '灰色无性恋'] },
+    // group 9: 无浪漫
+    { aliases: ['无浪漫', 'aro', 'aromantic', '无浪漫倾向'], targets: ['无浪漫倾向', 'aromantic'] },
+    // group 10: 酷儿
+    { aliases: ['酷儿', 'queer'], targets: ['酷儿', 'queer'] },
+    // group 11: 间性
+    { aliases: ['间性', '阴阳人', '双性人', '雌雄同体'], targets: ['间性人', 'intersex'] },
+    // group 12: 木桶饭（异装/MtF 语境）→ 只命中 MtF tag，与 group 2 意图一致（注意：组 2 和组 12 合并意图）
+    { aliases: ['木桶饭', '异装', '跨装', 'crossdress', '女装大佬', '女装', '男娘', '异装癖'], targets: ['跨性别女性', '女性倾向', 'transfeminine'] },
+    // group 13: HRT
+    { aliases: ['hrt', '激素', '荷尔蒙', '吃药', '打针', '雌激素', 'estrogen', 'testosterone'], targets: ['激素治疗', 'hrt'] },
+    // group 14: 手术
+    { aliases: ['手术', 'srs', '改性别', '变性手术', '确认手术', 'gender affirming', '切胸'], targets: ['性别肯定手术', 'srs', 'surgery'] },
+    // group 15: 声音
+    { aliases: ['声音', '伪声', '变声'], targets: ['声音训练'] },
+    // group 16: PrEP
+    { aliases: ['prep', '暴露前预防', 'pep', 'PrEP'], targets: ['暴露前预防'] },
+    // group 17: HIV
+    { aliases: ['hiv', '艾滋', '爱滋', 'aids'], targets: ['艾滋'] },
+    // group 18: 自杀/危机 → 移除"心理"（跨所有条目）和"抑郁"（太泛）
+    { aliases: ['自杀', '想死', '轻生', '危机', '跳楼'], targets: ['危机干预', '自杀'] },
+    // group 19: 咨询/治疗
+    { aliases: ['咨询', 'therapy', '治疗师', 'counselor'], targets: ['咨询', 'mental health'] },
+    // group 20: 诊所
+    { aliases: ['诊所', '医院', '看病', '医生'], targets: ['诊所', '医院', '医生'] },
+    // group 21: 法律
+    { aliases: ['法律', '维权', '权益', '诉讼', '官司'], targets: ['法律', '权益'] },
+    // group 22: 安全/隐私 → 只留"数字安全"，移除宽泛词
+    { aliases: ['安全', '隐私', '加密', 'vpn', '翻墙', '匿名'], targets: ['数字安全'] },
+    // group 23: 工作/职场/出柜
+    { aliases: ['工作', '职场', '就业', '老板', '出柜', 'come out'], targets: ['职场', '就业'] },
+    // group 24: 学生/学校
+    { aliases: ['学生', '学校', '上学', '老师', '校园'], targets: ['青年', '学校', '学生'] },
+    // group 25: 社区
+    { aliases: ['社区', '小组', '聚会', '微信群'], targets: ['社区', '同伴'] },
+    // group 26: 改名/证件
+    { aliases: ['改名', '改证', '身份证', '证件', '性别标记', '性别变更'], targets: ['证件', '法律性别承认'] },
+    // group 27: 家庭
+    { aliases: ['家庭', '父母', '妈妈', '爸爸', '家长'], targets: ['家庭', '父母'] },
+    // group 28: DIY
+    { aliases: ['diy', '自助', '自己', '网购', '海淘'], targets: ['DIY', '减害'] },
+    // group 29: 性角色
+    { aliases: ['1', '0', '0.5', 'top', 'bottom', 'vers', '攻', '受', '可攻可受'], targets: ['性角色'] },
+    // group 30: 身材分类（男同社群）
+    { aliases: ['熊', '猴', '壮熊', '肌肉', 'bear', 'otter', 'twink', 'twunk', 'cub', 'wolf'], targets: ['身材分类'] },
+    // group 31: Pass/出柜 → 只留"出柜"，pass/passing 在 resources.js 里没有
+    { aliases: ['pass', '过关', '出柜', 'come out', '深柜', 'stealth'], targets: ['出柜', 'come out'] },
+    // group 32: 性别焦虑（target 全部不存在，保留原词 fallback）
+    { aliases: ['性别焦虑', '性别不安', '性别烦躁', 'gd', 'gender dysphoria'], targets: ['性别焦虑'] },
+    // group 33: 性取向探索（target 存疑，保留原词 fallback）
+    { aliases: ['探索', 'questioning', '疑问', '不确定'], targets: ['性取向探索', '性别探索'] },
+    // group 34: 泛性恋
+    { aliases: ['泛性恋', 'pan', 'pansexual', '多性恋', 'polysexual'], targets: ['泛性恋', '多性恋', 'pansexual'] },
+    // group 35: 浪漫取向（target 存疑，保留原词 fallback）
+    { aliases: ['浪漫取向', '浪漫倾向', '双浪漫', '泛浪漫', '灰色浪漫'], targets: ['浪漫取向'] },
+    // group 36: 多边恋（target 存疑，保留原词 fallback）
+    { aliases: ['多边恋', '开放关系', '非单偶', 'poly', 'polyamory'], targets: ['多边恋', '开放关系', '非单偶'] },
+    // group 37: 束胸/垫裆（target 存疑，保留原词 fallback）
+    { aliases: ['束胸', 'binding', 'binder', '垫裆', 'packing', 'packer', 'tuck'], targets: ['束胸', 'binding', 'packing', 'tuck'] },
+    // group 38: 网络骚扰
+    { aliases: ['网暴', '人肉', 'doxxing', '网络骚扰', '仇恨言论'], targets: ['网络骚扰', '数字安全'] },
+    // group 39: 生育/生殖（target 存疑，保留原词 fallback）
+    { aliases: ['生育', '怀孕', '生殖', '冻卵', '冻精'], targets: ['生育', '生殖健康', 'fertility'] },
+    // group 40: 宗教/灵性（target 存疑，保留原词 fallback）
+    { aliases: ['宗教', '信仰', '灵性', '教会', '寺庙'], targets: ['宗教', '灵性', '信仰'] },
+    // group 41: 变装/CD/伪娘/男娘（精准：只命中新增的变装专项条目）
+    { aliases: ['cd', 'crossdress', 'crossdressing', '变装', '异装', '跨装', '伪娘', '男娘', '女装', '女装大佬', '女装子', '男の娘', 'ニューハーフ', '여장', '크로스드레서', 'cdts', 'tsf', '性转', '变身'], targets: ['变装', '伪娘', '男娘', 'CDTS', 'TSF', '性转'] },
+    // group 42: 攻受/性角色/Vers
+    { aliases: ['1', '0', '0.5', 'top', 'bottom', 'vers', 'versatile', '攻', '受', '可攻可受', '偏1', '偏0', '纯1', '纯0', '公', '母', 'タチ', 'ネコ', 'リバ', '탑', '바텀'], targets: ['性角色'] },
+    // group 43: 熊圈/身材类型
+    { aliases: ['熊', '猴', '狒狒', '狼', '猪', '壮熊', '肌肉', '毛熊', 'bear', 'otter', 'twink', 'twunk', 'cub', 'wolf', 'silver fox', 'chaser', '追逐者', 'ゴリマッチョ'], targets: ['身材分类'] },
+    // group 44: 药娘/吃糖/GAHT
+    { aliases: ['药娘', '吃糖', '糖', '药', 'gaht', '激素替代', '抗雄', '雌激素', '补佳乐', '色普龙', '螺内酯', 'ホルモン療法', '호르몬 치료'], targets: ['药娘', '激素治疗', 'hrt'] },
+    // group 45: BDSM/字母圈/主奴
+    { aliases: ['bdsm', 'sm', '字母圈', '主奴', '主人', '奴隶', 'dom', 'sub', 'switch', '调教', '束缚', '皮绳', '愉虐', 'spank', '小圈', 'fetish', 'kink', '恋物', 'd/s', '支配', '臣服', '縄', '緊縛'], targets: ['BDSM', '字母圈', '主奴'] },
+    // group 46: CDTS变身文学/TSF
+    { aliases: ['tsf', '变身文学', '性转小说', '变身小说', 'cdbook', '伪娘漫画', '性转漫画', 'ts漫画', '变身漫画', '성전환 소설'], targets: ['TSF', '变身文学', '性转'] },
+    // group 47: 韩国性少数
+    { aliases: ['이반시티', 'ivancity', '게이', '레즈비언', '트랜스젠더', '성소수자', '퀴어', '한국 게이', '한국 레즈', '커밍아웃', '한국 성소수자'], targets: ['韩国', 'KSCRC'] },
+    // group 48: 日本伪娘/女装子
+    { aliases: ['男の娘', '女装子', 'ニューハーフ', 'おとこのこ', 'メンズメイク'], targets: ['日本', '男の娘'] },
+    // group 49: 台湾伪娘/CDTS
+    { aliases: ['偽娘', '女裝男子', '偽娘板', '巴哈偽娘', 'dcard偽娘', '女裝男子互助'], targets: ['伪娘', 'CDTS'] },
+    // group 50: 中东/阿拉伯语
+    { aliases: ['arab', 'arabic', '阿拉伯', '中东', 'middle east', 'mena', 'queer arab', 'lgbt arab', 'عربي', 'المثليين', 'مجتمع الميم'], targets: ['中东', '阿拉伯'] },
+    // group 51: 非洲
+    { aliases: ['africa', 'african', '非洲', 'gala', 'gender dynamix', 'cal', 'qayn', 'amsher', 'south africa', 'african lgbt', 'african queer'], targets: ['非洲', 'GALA'] },
+    // group 52: 拉丁美洲
+    { aliases: ['latino', 'latina', 'latin america', '拉丁美洲', '拉美', 'ilgalac', 'gpsgay', '巴西', '墨西哥', 'argentina', 'colombia'], targets: ['拉丁美洲'] },
+    // group 53: 残障/聋人/视障
+    { aliases: ['disability', 'disabled', 'deaf', 'blind', '残障', '聋人', '视障', '听障', 'pwda', 'deaf queer', 'blind lgbt'], targets: ['残障', '聋人', '视障'] },
+    // group 54: 宗教/信仰（已在 group 40 存在同义词，这里补充宗教英文）
+    { aliases: ['religion', 'religious', 'faith', 'church', 'christian', 'jewish', 'muslim', 'buddhist', '基督教', '犹太教', '穆斯林', '佛教'], targets: ['宗教', '信仰'] },
+    // group 55: 移民/难民/庇护
+    { aliases: ['immigrant', 'refugee', 'asylum', 'migration', '移民', '难民', '庇护', '政治庇护', 'immigration equality', 'oram', 'rainbow railroad', 'rainbow initiative'], targets: ['移民', '难民', '庇护'] },
+    // group 56: 性健康/PrEP补充
+    { aliases: ['性健康', 'sexual health', 'pep', '暴露后预防', '安全套', '检测', 'hiv检测', '匿名检测', '性病', 'std', 'sti'], targets: ['暴露前预防', '艾滋', '检测'] },
+    // group 57: 多边恋/开放关系/ENM
+    { aliases: ['多边恋', '开放关系', '非单偶', 'poly', 'polyamory', 'polyam', 'enm', 'ethical non-monogamy', '多元关系', '开放式关系'], targets: ['多边恋', '开放关系', '非单偶'] }
+  ];
+  /*END_ALIAS*/
+
+  function expandTerm(term) {
+    const t = (term || '').toLowerCase().trim();
+    if (!t) return [];
+    const result = new Set([t]);
+    for (let i = 0; i < QUERY_ALIAS_GROUPS.length; i++) {
+      const g = QUERY_ALIAS_GROUPS[i];
+      for (let j = 0; j < g.aliases.length; j++) {
+        const a = g.aliases[j];
+        if (a === t || t.indexOf(a) !== -1 || a.indexOf(t) !== -1) {
+          for (let k = 0; k < g.targets.length; k++) result.add(g.targets[k].toLowerCase());
+          break;
+        }
+      }
+    }
+    return [...result];
+  }
+
   // ---- 核心筛选 ----
   function executeFilter() {
     ensureFullGridRendered();
-    const searchInput = document.getElementById('searchInput');
     const noResults = document.getElementById('noResults');
     // 缓存 NodeList 避免每次 DOM 查询
     if (!allCards || allCards.length === 0) {
       allCards = document.querySelectorAll('#resourceGrid article');
     }
-    state.query = ((searchInput && searchInput.value) || '').toLowerCase().trim();
+    // state.query 已在 input 事件里由两个搜索框同步好，不再覆盖
 
-    // 多关键词 AND 搜索
+    // 多关键词 AND 搜索；每个关键词内部是同义词 OR 匹配
     const terms = state.query ? state.query.split(/\s+/).filter(Boolean) : [];
 
     let matchCount = 0;
@@ -357,7 +498,12 @@
       const okRegion = state.region === 'all' || region === state.region;
       let okQuery = true;
       for (let i = 0; i < terms.length; i++) {
-        if (hay.indexOf(terms[i]) === -1) { okQuery = false; break; }
+        const expanded = expandTerm(terms[i]);
+        let hit = false;
+        for (let j = 0; j < expanded.length; j++) {
+          if (hay.indexOf(expanded[j]) !== -1) { hit = true; break; }
+        }
+        if (!hit) { okQuery = false; break; }
       }
       const show = okCat && okType && okRegion && okQuery;
       card.classList.toggle('hidden', !show);
@@ -402,29 +548,41 @@
     document.getElementById('homeView').classList.remove('hidden');
     document.getElementById('allView').classList.add('hidden');
     setActiveNav('home');
-    try { document.getElementById('main-content').focus(); } catch (e) { /* ignore */ }
+    // 关键：回到首页顶部，而不是停在之前的滚动位置
+    window.scrollTo(0, 0);
+    // 让键盘焦点落在 hero 搜索框，方便用户直接搜索
+    const hero = document.getElementById('searchInput');
+    if (hero) { try { hero.focus({ preventScroll: true }); } catch (e) { try { hero.focus(); } catch (_) {} } }
   }
 
   function showAllView() {
     document.getElementById('homeView').classList.add('hidden');
     document.getElementById('allView').classList.remove('hidden');
+    window.scrollTo(0, 0);
     ensureFullGridRendered();
     executeFilter();
     setActiveNav('all');
-    try { document.getElementById('main-content').focus(); } catch (e) { /* ignore */ }
+    // 自动聚焦全部视图的搜索框，方便继续搜索
+    const searchAll = document.getElementById('searchInputAll');
+    if (searchAll) { try { searchAll.focus(); } catch (e) { /* ignore */ } }
   }
 
   function quickSearch(query) {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) { searchInput.value = query; searchInput.focus(); try { searchInput.select(); } catch (e) { /* ignore */ } }
-    state.query = query;
-    showAllView();
-    // showAllView 内部已调用 executeFilter（含 syncUrl），此处不再重复
+    // 同步两个搜索框的值
+    const inputHome = document.getElementById('searchInput');
+    const inputAll = document.getElementById('searchInputAll');
+    if (inputHome) inputHome.value = query;
+    if (inputAll) inputAll.value = query;
+    state.query = (query || '').trim().toLowerCase();
+    showAllView(); // showAllView 内部会聚焦 searchInputAll
   }
 
   function resetFilters() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) searchInput.value = '';
+    // 清空两个搜索框
+    const inputHome = document.getElementById('searchInput');
+    const inputAll = document.getElementById('searchInputAll');
+    if (inputHome) inputHome.value = '';
+    if (inputAll) inputAll.value = '';
     state.category = 'all';
     state.type = 'all';
     state.region = 'all';
@@ -499,8 +657,10 @@
       state.type = hashState.type;
       state.region = hashState.region;
       state.query = hashState.query;
-      const searchInput = document.getElementById('searchInput');
-      if (searchInput) searchInput.value = hashState.query;
+      const inputHome = document.getElementById('searchInput');
+      const inputAll = document.getElementById('searchInputAll');
+      if (inputHome) inputHome.value = hashState.query;
+      if (inputAll) inputAll.value = hashState.query;
     }
 
     // 主题
@@ -535,20 +695,66 @@
       });
     });
 
-    // 搜索框：实时筛选（全部视图时）
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-      searchInput.addEventListener('input', debounce(function () {
-        const allHidden = document.getElementById('allView').classList.contains('hidden');
-        if (!allHidden) {
-          executeFilter();
+    // ---- 搜索框双向同步 ----
+    // homeView 里的大搜索框（searchInput）和 allView 里的紧凑搜索框（searchInputAll）
+    // 共享同一个 state.query，任何一个输入都会同步到另一个并触发过滤
+    const inputHome = document.getElementById('searchInput');
+    const inputAll = document.getElementById('searchInputAll');
+    const clearAll = document.getElementById('searchClearAll');
+
+    function updateClearBtnVisible() {
+      if (clearAll) {
+        const hasVal = state.query && state.query.length > 0;
+        clearAll.classList.toggle('hidden', !hasVal);
+      }
+    }
+
+    // 核心：任何一个搜索框 input 事件 → 同步另一个 → 过滤 → 更新 state
+    function bindSearchInput(input, from) {
+      if (!input) return;
+      input.addEventListener('input', debounce(function () {
+        const val = input.value;
+        state.query = (val || '').trim().toLowerCase();
+        // 同步值到另一个框（但不触发对方的 input 事件）
+        const other = from === 'home' ? inputAll : inputHome;
+        if (other && other !== input && other.value !== val) {
+          other.value = val;
         }
+        // 无论哪个视图，都过滤一次（首页上 executeFilter 是 no-op 因为 allCards 还没渲染）
+        executeFilter();
+        updateClearBtnVisible();
       }, 180));
-      searchInput.addEventListener('keydown', function (e) {
+      // Enter → 如果当前在首页，切到全部视图；如果已在全部视图，无额外行为
+      input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
           e.preventDefault();
-          showAllView();
+          const allHidden = document.getElementById('allView').classList.contains('hidden');
+          if (allHidden) {
+            showAllView();
+          }
         }
+      });
+    }
+    bindSearchInput(inputHome, 'home');
+    bindSearchInput(inputAll, 'all');
+
+    // 清除按钮（allView 搜索框旁边的 close 按钮）
+    if (clearAll) {
+      clearAll.addEventListener('click', function () {
+        state.query = '';
+        if (inputHome) inputHome.value = '';
+        if (inputAll) inputAll.value = '';
+        executeFilter();
+        updateClearBtnVisible();
+        if (inputAll) { try { inputAll.focus(); } catch (e) {} }
+      });
+    }
+
+    // 首页大"搜索"按钮 → 切到全部视图并把焦点给 allView 的搜索框
+    const heroBtn = document.getElementById('heroSearchBtn');
+    if (heroBtn) {
+      heroBtn.addEventListener('click', function () {
+        showAllView(); // showAllView 内部会聚焦 searchInputAll
       });
     }
 
@@ -562,15 +768,17 @@
       });
     }
 
-    // 快捷键 ⌘K / Ctrl+K
+    // 快捷键 ⌘K / Ctrl+K → 聚焦全部视图的搜索框（没全部视图就聚焦首页搜索框）
     window.addEventListener('keydown', function (e) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        if (searchInput) { searchInput.focus(); try { searchInput.select(); } catch (err) { /* ignore */ } }
+        const target = inputAll && !document.getElementById('allView').classList.contains('hidden')
+          ? inputAll : inputHome;
+        if (target) { try { target.focus(); try { target.select(); } catch (err) {} } catch (err) { /* ignore */ } }
       }
     });
 
-    // hashchange 同步
+    // hashchange 同步状态和两个搜索框
     window.addEventListener('hashchange', function () {
       const h = parseHash();
       if (!h) return;
@@ -578,8 +786,8 @@
       state.type = h.type;
       state.region = h.region;
       state.query = h.query;
-      const si = document.getElementById('searchInput');
-      if (si) si.value = h.query;
+      if (inputHome) inputHome.value = h.query;
+      if (inputAll) inputAll.value = h.query;
       applyFilterState();
     });
 
