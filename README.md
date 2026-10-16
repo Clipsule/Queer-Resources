@@ -1,4 +1,7 @@
 # Queer Resources · 酷儿资源库
+<div align="center">
+   <img src="assets/logo-main.png" alt="描述" width="50%">
+</div>
 
 > 温和、严谨与包容的 LGBTQIA+ 同行互助平台
 
