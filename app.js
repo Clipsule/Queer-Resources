@@ -80,10 +80,19 @@
 
   function parseHash() {
     const hash = window.location.hash;
-    const m = hash.match(/^#\/\?(.*)$/);
-    if (!m) return null;
+    // 支持 #/（纯路径 = 进入全部资源视图，category 默认 all）和 #/?cat=xxx&q=yyy（带查询）
+    const bareSlash = hash.match(/^#\/$/);
+    const withQuery = hash.match(/^#\/\?(.*)$/);
+    let params;
+    if (withQuery) {
+      try { params = new URLSearchParams(withQuery[1]); } catch (e) { params = null; }
+    } else if (bareSlash) {
+      params = { get: function (k) { if (k === 'cat') return 'all'; return null; } };
+    } else {
+      return null;
+    }
+    if (!params) return null;
     try {
-      const params = new URLSearchParams(m[1]);
       return {
         category: params.get('cat') || 'all',
         type: params.get('type') || 'all',
@@ -632,7 +641,7 @@
         break;
       case 'close-safety-banner':
         const banner = document.getElementById('safety-banner');
-        if (banner) banner.style.display = 'none';
+        if (banner) { banner.classList.add('is-closed'); storage.set('qr-banner-closed', '1'); }
         break;
       case 'quick-search':
         const q = el.getAttribute('data-query');
@@ -650,8 +659,15 @@
     updateCounts();
     renderCrisisGrid();
 
-    // URL hash 恢复状态
+    // 用户之前关闭过安全警示 → 本次直接加 is-closed class（CSS transition 平滑过渡）
+    if (storage.get('qr-banner-closed')) {
+      const b = document.getElementById('safety-banner');
+      if (b) b.classList.add('is-closed');
+    }
+
+    // URL hash 恢复状态 —— 带 hash 进入 = 直接进入全部资源视图
     const hashState = parseHash();
+    const isAllView = !!hashState;
     if (hashState) {
       state.category = hashState.category;
       state.type = hashState.type;
@@ -661,6 +677,14 @@
       const inputAll = document.getElementById('searchInputAll');
       if (inputHome) inputHome.value = hashState.query;
       if (inputAll) inputAll.value = hashState.query;
+    }
+
+    // 根据 hash 决定初始视图和导航高亮 —— 两个动作显式绑定
+    if (isAllView) {
+      showAllView();       // 隐藏 homeView，显示 allView
+      setActiveNav('all'); // 高亮"全部资源"
+    } else {
+      setActiveNav('home'); // 高亮"首页"
     }
 
     // 主题
@@ -778,27 +802,26 @@
       }
     });
 
-    // hashchange 同步状态和两个搜索框
+    // hashchange 同步状态和视图切换
     window.addEventListener('hashchange', function () {
       const h = parseHash();
-      if (!h) return;
-      state.category = h.category;
-      state.type = h.type;
-      state.region = h.region;
-      state.query = h.query;
-      if (inputHome) inputHome.value = h.query;
-      if (inputAll) inputAll.value = h.query;
-      applyFilterState();
+      if (h) {
+        state.category = h.category;
+        state.type = h.type;
+        state.region = h.region;
+        state.query = h.query;
+        if (inputHome) inputHome.value = h.query;
+        if (inputAll) inputAll.value = h.query;
+        showAllView();  // 带 hash = 全部资源视图 + setActiveNav('all')
+        applyFilterState();
+      } else {
+        // hash 被清空（例如 syncUrl 清除筛选后）→ 切回首页
+        showHomeView();
+      }
     });
 
     // 初次渲染筛选状态
     applyFilterState();
-
-    // 初始导航高亮 — 只在 index.html（有 homeView/allView 的 SPA）上干预
-    // crisis.html / contributing.html 硬编码 nav-active，不覆盖
-    if (document.getElementById('homeView')) {
-      const hash = parseHash();
-      setActiveNav(hash && hash.category !== 'all' ? 'all' : 'home');
-    }
+    // setActiveNav 已在上方显式调用，不在此处重复
   });
 })();

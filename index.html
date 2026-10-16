@@ -9,9 +9,10 @@
 <meta content="性少数资源库 — 跨性别、间性人、性别肯定医疗、危机热线、法律人权等社区索引。所有链接未经独立核验。" property="og:description"/>
 <meta content="website" property="og:type"/>
 <meta content="zh_CN" property="og:locale"/>
-<meta content="images/logo-main.png" property="og:image"/>
 <title>Queer Resources | 温和、严谨与包容的性少数同行互助平台</title>
-<link rel="icon" type="image/png" href="images/logo-side.png"/>
+<link rel="icon" type="image/png" href="assets/logo-sub.png" width="32" height="32"/>
+<link rel="apple-touch-icon" href="assets/logo-sub.png" sizes="180x180"/>
+<meta property="og:image" content="assets/logo-main.png"/>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; font-src 'self' data: https://fonts.gstatic.com https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://fonts.googleapis.com; img-src 'self' data: https:; connect-src 'self'; object-src 'none'"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -102,6 +103,17 @@
     .dark .nav-item.nav-active { color: #7AA5FF !important; }
     .main-content-fade { animation: fadeIn 320ms ease both; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== CLS 修复：固定预分配尺寸，消除首屏布局抖动 ===== */
+    /* 1) Material Symbols：强制 1em × 1em inline-flex，字体加载前后占位宽度一致 */
+    .material-symbols-outlined { width: 1em !important; height: 1em !important; display: inline-flex !important; align-items: center; justify-content: center; overflow: hidden; }
+    /* 2) 空容器预占位：JS 渲染前就保留足够高度，innerHTML 不会让下方内容跳动 */
+    #featuredGrid { min-height: 420px; }
+    #crisisGrid { min-height: 200px; }
+    #resourceGrid { min-height: 640px; }
+    /* 3) banner 关闭用高度过渡，而不是 display:none 瞬间塌陷 */
+    #safety-banner { transition: max-height 300ms ease, opacity 300ms ease; overflow: hidden; }
+    #safety-banner.is-closed { max-height: 0 !important; opacity: 0 !important; padding-top: 0 !important; padding-bottom: 0 !important; }
   </style>
 </head>
 <body class="bg-[#F8F9FD] text-text-primary min-h-screen antialiased flex flex-col selection:bg-pink-100 selection:text-pink-900 relative overflow-x-hidden font-sans" id="bodyRoot">
@@ -120,7 +132,7 @@
 <div class="w-full px-4 md:px-8 max-w-7xl mx-auto flex items-center justify-between h-16">
 <div class="flex items-center gap-6">
 <a class="text-lg font-bold text-primary tracking-tight flex items-center gap-3 group" href="index.html" data-nav="home" data-action="show-home">
-<img alt="Queer Resources 品牌 logo" aria-hidden="true" class="w-9 h-9 rounded-xl object-contain group-hover:scale-105 transition-transform duration-200 drop-shadow-sm" src="images/logo-side.png"/>
+<img src="assets/logo-sub.png" alt="Queer Resources Logo" width="36" height="36" class="rounded-xl shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform duration-200 object-contain"/>
 <span class="rainbow-shimmer-text font-extrabold text-[19px] tracking-tight">Queer Resources</span>
 </a>
 <nav class="hidden lg:flex items-center space-x-6 text-sm ml-4 font-medium text-slate-600" aria-label="主导航">
@@ -184,7 +196,7 @@
         <span class="text-xs font-semibold text-slate-700 tracking-wide uppercase">社区索引 · LGBTQIA+ 资源库 v1.0</span>
         <span class="text-slate-400 text-xs">| 2026-10-14 更新 · 未独立核验</span>
       </div>
-      <img alt="Queer Resources 主 logo — 酷儿资源库品牌标识" aria-hidden="true" class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 object-contain mx-auto drop-shadow-[0_8px_24px_rgba(168,85,247,0.25)]" src="images/logo-main.png"/>
+      
       <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#1D1D1F] leading-[1.15]" id="hero-title">温和、严谨与包容的<br/><span class="rainbow-shimmer-text">性少数资源库</span></h1>
       <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">按功能收录跨性别、间性人、多元性取向、性别肯定医疗、危机热线、法律人权与生活支持条目。标签只作检索，不作诊断或服务承诺。</p>
       <div class="pt-3 max-w-3xl mx-auto">
