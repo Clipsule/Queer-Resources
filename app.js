@@ -69,37 +69,33 @@
   }
 
   // ---- URL hash 同步 ----
+  // 搜索词（q）不写入 URL：否则刷新后会从上一次的搜索结果自动跳转、且搜索框残留旧值。
+  // URL 只保存「分类 / 类型 / 地区」这类可分享的筛选条件。
   function buildHash() {
     const parts = [];
     if (state.category !== 'all') parts.push('cat=' + encodeURIComponent(state.category));
     if (state.type !== 'all') parts.push('type=' + encodeURIComponent(state.type));
     if (state.region !== 'all') parts.push('reg=' + encodeURIComponent(state.region));
-    if (state.query) parts.push('q=' + encodeURIComponent(state.query));
     return parts.length ? '#/?' + parts.join('&') : '';
   }
 
   function parseHash() {
     const hash = window.location.hash;
-    // 支持 #/（纯路径 = 进入全部资源视图，category 默认 all）和 #/?cat=xxx&q=yyy（带查询）
-    const bareSlash = hash.match(/^#\/$/);
-    const withQuery = hash.match(/^#\/\?(.*)$/);
-    let params;
-    if (withQuery) {
-      try { params = new URLSearchParams(withQuery[1]); } catch (e) { params = null; }
-    } else if (bareSlash) {
-      params = { get: function (k) { if (k === 'cat') return 'all'; return null; } };
-    } else {
-      return null;
+    // 支持 #/（纯路径 = 进入全部资源视图）与 #/?cat=xxx&type=yyy&reg=zzz（带筛选）
+    if (/^#\/$/.test(hash)) {
+      return { category: 'all', type: 'all', region: 'all', query: '' };
     }
-    if (!params) return null;
-    try {
-      return {
-        category: params.get('cat') || 'all',
-        type: params.get('type') || 'all',
-        region: params.get('reg') || 'all',
-        query: params.get('q') || ''
-      };
-    } catch (e) { return null; }
+    const withQuery = hash.match(/^#\/\?(.*)$/);
+    if (!withQuery) return null;
+    let params;
+    try { params = new URLSearchParams(withQuery[1]); } catch (e) { return null; }
+    const category = params.get('cat') || 'all';
+    const type = params.get('type') || 'all';
+    const region = params.get('reg') || 'all';
+    // 搜索词一律忽略：不回填搜索框、不触发自动跳转；
+    // 历史遗留的、只含 q 的链接也视为无状态 → 停留在首页
+    if (category === 'all' && type === 'all' && region === 'all') return null;
+    return { category: category, type: type, region: region, query: '' };
   }
 
   function syncUrl() {
@@ -698,18 +694,21 @@
       if (b) b.classList.add('is-closed');
     }
 
-    // URL hash 恢复状态 —— 带 hash 进入 = 直接进入全部资源视图
+    // 刷新后不自动跳转、搜索框留空：URL 已不保存搜索词（见 buildHash），
+    // 这里再显式清空两个搜索框，避免浏览器在刷新时恢复上次输入的表单值
+    const inputHomeInit = document.getElementById('searchInput');
+    const inputAllInit = document.getElementById('searchInputAll');
+    if (inputHomeInit) inputHomeInit.value = '';
+    if (inputAllInit) inputAllInit.value = '';
+    state.query = '';
+
+    // URL hash 只恢复「分类 / 类型 / 地区」筛选 —— 带 hash 进入 = 直接进入全部资源视图
     const hashState = parseHash();
     const isAllView = !!hashState;
     if (hashState) {
       state.category = hashState.category;
       state.type = hashState.type;
       state.region = hashState.region;
-      state.query = hashState.query;
-      const inputHome = document.getElementById('searchInput');
-      const inputAll = document.getElementById('searchInputAll');
-      if (inputHome) inputHome.value = hashState.query;
-      if (inputAll) inputAll.value = hashState.query;
     }
 
     // 根据 hash 决定初始视图和导航高亮 —— 两个动作显式绑定

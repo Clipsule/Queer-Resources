@@ -65,16 +65,19 @@
       if (state.category !== 'all') parts.push('cat=' + encodeURIComponent(state.category));
       if (state.type !== 'all') parts.push('type=' + encodeURIComponent(state.type));
       if (state.region !== 'all') parts.push('reg=' + encodeURIComponent(state.region));
-      if (state.query) parts.push('q=' + encodeURIComponent(state.query));
       return parts.length ? '#/?' + parts.join('&') : '';
     }
     function parseHash(hash) {
+      if (/^#\/$/.test(hash)) return { category: 'all', type: 'all', region: 'all', query: '' };
       const m = hash.match(/^#\/\?(.*)$/);
       if (!m) return null;
-      try {
-        const params = new URLSearchParams(m[1]);
-        return { category: params.get('cat') || 'all', type: params.get('type') || 'all', region: params.get('reg') || 'all', query: params.get('q') || '' };
-      } catch (e) { return null; }
+      let params;
+      try { params = new URLSearchParams(m[1]); } catch (e) { return null; }
+      const category = params.get('cat') || 'all';
+      const type = params.get('type') || 'all';
+      const region = params.get('reg') || 'all';
+      if (category === 'all' && type === 'all' && region === 'all') return null;
+      return { category: category, type: type, region: region, query: '' };
     }
 
     // --- 测试框架 ---
@@ -144,21 +147,36 @@
       assertEq(groups[1].items.length, 1, '第二组应有 1 条');
     });
 
-    test('buildHash / parseHash 往返一致', function () {
+    test('buildHash / parseHash 往返一致（仅筛选，不含搜索词）', function () {
       const state = { category: 'wiki', type: 'clinical', region: 'cn', query: '跨性别 激素' };
       const h = buildHash(state);
       assert(h.indexOf('cat=wiki') !== -1, '应包含 cat=wiki');
-      assert(h.indexOf('q=') !== -1, '应包含 q=');
+      assert(h.indexOf('q=') === -1, '不应包含搜索词 q=');
       const parsed = parseHash(h);
       assertEq(parsed.category, 'wiki');
       assertEq(parsed.type, 'clinical');
       assertEq(parsed.region, 'cn');
-      assertEq(parsed.query, '跨性别 激素');
+      assertEq(parsed.query, '');
+    });
+
+    test('buildHash: 仅搜索词不产生 hash（刷新后不跳转）', function () {
+      const h = buildHash({ category: 'all', type: 'all', region: 'all', query: '跨性别' });
+      assertEq(h, '');
     });
 
     test('buildHash: all 状态产生空 hash', function () {
       const h = buildHash({ category: 'all', type: 'all', region: 'all', query: '' });
       assertEq(h, '');
+    });
+
+    test('parseHash: #/ 进入全部视图且无搜索词', function () {
+      const p = parseHash('#/');
+      assertEq(p.category, 'all');
+      assertEq(p.query, '');
+    });
+
+    test('parseHash: 仅含搜索词的链接不再进入全部视图', function () {
+      assertEq(parseHash('#/?q=%E8%B7%A8%E6%80%A7%E5%88%AB'), null);
     });
 
     test('parseHash: 非法格式返回 null', function () {
