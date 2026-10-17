@@ -84,6 +84,10 @@ python3 scripts/parse_resources.py
 ## 🔗 外部链接
 
 - **GitHub 仓库**：<https://github.com/Clipsule/Queer-Resources>
+- **GitHub 组织**：<https://github.com/clipsule>
+- **邮箱**：<mailto:queer-resources@clipsule.cn>
+- **X / Twitter**：<https://x.com/qingmao_ovo>
+- **Telegram 群**：<https://t.me/+uPey6QU-zqowODhl>
 - **提交新条目 / 失效反馈**：[contributing.html](./contributing.html)
 - **隐私政策**：[privacy.html](./privacy.html)
 - **姐妹站 MtF.wiki**：<https://mtf.wiki/> · 本站参考其仓库结构与 CC BY-SA 许可方式

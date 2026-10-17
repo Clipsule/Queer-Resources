@@ -3,13 +3,13 @@
 
   // ---- 常量 ----
   const TAG_STYLES = [
-    'bg-pink-100/80 text-pink-700 border-pink-200/70',
-    'bg-blue-100/80 text-blue-700 border-blue-200/70',
-    'bg-emerald-100/80 text-emerald-800 border-emerald-200/70',
-    'bg-purple-100/80 text-purple-700 border-purple-200/70',
-    'bg-indigo-100/80 text-indigo-700 border-indigo-200/70',
-    'bg-rose-100/80 text-rose-700 border-rose-200/70',
-    'bg-amber-100/80 text-amber-800 border-amber-200/70'
+    'bg-pink-100/80 dark:bg-pink-500/20 text-pink-700 border-pink-200/70 dark:border-pink-400/30',
+    'bg-blue-100/80 dark:bg-blue-500/20 text-blue-700 border-blue-200/70 dark:border-blue-400/30',
+    'bg-emerald-100/80 dark:bg-emerald-500/20 text-emerald-800 border-emerald-200/70 dark:border-emerald-400/30',
+    'bg-purple-100/80 dark:bg-purple-500/20 text-purple-700 border-purple-200/70 dark:border-purple-400/30',
+    'bg-indigo-100/80 dark:bg-indigo-500/20 text-indigo-700 border-indigo-200/70 dark:border-indigo-400/30',
+    'bg-rose-100/80 dark:bg-rose-500/20 text-rose-700 border-rose-200/70 dark:border-rose-400/30',
+    'bg-amber-100/80 dark:bg-amber-500/20 text-amber-800 border-amber-200/70 dark:border-amber-400/30'
   ];
 
   const REGION_LABEL = { cn: '中国大陆', tw: '中国台湾', hk: '中国香港', intl: '国际/其他', all: '全部' };
@@ -542,7 +542,7 @@
 
   // ---- 视图切换 ----
   function setActiveNav(view) {
-    document.querySelectorAll('.nav-item').forEach(function (el) {
+    document.querySelectorAll('.nav-item, .mobile-nav-item').forEach(function (el) {
       const target = el.getAttribute('data-nav');
       if (target === view) el.classList.add('nav-active');
       else el.classList.remove('nav-active');
@@ -654,6 +654,39 @@
 
   // ---- 初始化 ----
   document.addEventListener('DOMContentLoaded', function () {
+    // === 移动端导航抽屉 ===
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    function toggleMobileNav(force) {
+      if (!mobileBtn || !mobileNav) return;
+      const willOpen = typeof force === 'boolean' ? force : !mobileNav.classList.contains('is-open');
+      mobileNav.classList.toggle('is-open', willOpen);
+      mobileBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      mobileBtn.classList.toggle('is-open', willOpen);
+      // 打开时锁 body 滚动
+      document.body.style.overflow = willOpen ? 'hidden' : '';
+    }
+    if (mobileBtn) {
+      mobileBtn.addEventListener('click', function (e) { e.stopPropagation(); toggleMobileNav(); });
+    }
+    // 点击移动端导航项后自动关闭抽屉
+    if (mobileNav) {
+      mobileNav.addEventListener('click', function (e) {
+        const item = e.target.closest('.mobile-nav-item');
+        if (item) toggleMobileNav(false);
+      });
+      // 点击抽屉外部关闭
+      document.addEventListener('click', function (e) {
+        if (mobileNav.classList.contains('is-open') && !mobileNav.contains(e.target) && e.target !== mobileBtn && !mobileBtn.contains(e.target)) {
+          toggleMobileNav(false);
+        }
+      });
+      // Esc 关闭
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') toggleMobileNav(false);
+      });
+    }
+
     // 初始渲染
     renderFeaturedGrid();
     updateCounts();
