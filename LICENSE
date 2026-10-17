@@ -8,8 +8,9 @@ Queer Resources · 酷儿资源库
 
 适用范围：
 - `docs/resources.md` 中的社区索引条目
+- `docs/search-aliases.md`、`docs/color-system.md` 等 Markdown 文档中的文字说明
+- `locales/i18n.json` 中的界面文案与资源条目译文
 - HTML 页面中的文案（不含代码）
-- Markdown 文档中的文字说明
 
 本项目内容以 **Creative Commons Attribution-ShareAlike 4.0 International**（署名-相同方式共享 4.0 国际版）许可发布。
 
@@ -28,9 +29,12 @@ Queer Resources · 酷儿资源库
 ## 二、代码许可（MIT）
 
 适用范围：
-- `scripts/parse_resources.py`
-- `app.js`
+- `app.js`、`i18n.js`
+- `scripts/parse_resources.py`、`scripts/generate_alias_js.py`、`scripts/build_icon_font.py`
+- `assets/icons.css`
 - HTML 模板中的结构代码（非文案部分）
+
+> `resources.js` 是由 `docs/resources.md` 生成的**数据文件**，其内容适用上文的 CC BY-SA 4.0 内容许可（生成它的脚本适用 MIT）。
 
 MIT License
 

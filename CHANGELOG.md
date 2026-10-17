@@ -4,6 +4,22 @@
 
 ## Unreleased
 
+### 仓库整理与文档规范化
+
+- **删除** `.trae-html-share-packages/`（含 `privacy.html.zip`，约 1.5 MB IDE 分享产物，已被 `.gitignore` 忽略）
+- **删除** `locales/_tmp/i18n.bak.json`（多语言融合前的临时备份，运行时与脚本均无引用）
+- **重命名** `docs/COLOR_SYSTEM.md` → `docs/color-system.md`（与其他文档统一为小写连字符命名），并按 `index.html` 中的**实际实现**校正内容：原文档描述的 `.rainbow-bg` / `.blob` / `blur(120px)` / `translateY(-4px)` / `--rainbow-*` / `--accent-gradient` 等取值与实现不符，实际为 `.aurora-blob` + `blur-[110–120px]` + `animate-aurora-*` + hover `translateY(-6px)`
+- **修复** `docs/search-aliases.md` 缺失第 32–40 组（性别焦虑 / 性取向探索 / 泛性恋 / 浪漫取向 / 多边恋 / 束胸 / 网络骚扰 / 生育 / 宗教）的问题。原文只有 48 组，而 `app.js` 与 `locales/i18n.json` 均为 57 组 —— 按原文档执行 `generate_alias_js.py` 会把 9 组同义词从 `app.js` 中静默删除；现已按 `app.js` 实际数据补齐，并注明「表格必须覆盖全部组」
+- **修复** `docs/search-aliases.md` 的测试示例：`QUERY_ALIAS_GROUPS` 定义在 `app.js` 的 IIFE 内部、并非全局变量，示例改为 `window.QRi18n.aliasGroups()`
+- **重写** `README.md`：新增**完整文件地图**（逐文件标注「被谁引用 / 指向哪里 / 有什么用处」）、多语言与图标字体的生成流程、`file://` 直开时的限制说明
+- **重写** `CONTRIBUTING.md`：修正重复的章节编号（两处「7」）、移除指向不存在文件的 `CODE_OF_CONDUCT.md` 死链、新增「文件地图」与「多语言文案」章节、更正同义词贡献流程（两份表 + `locales/i18n.json` 中的外语检索词）、把「目前仅简体中文」更正为四种语言
+- **修正** `LICENSE`：代码许可（MIT）适用范围补齐 `i18n.js`、`resources.js` 与 `scripts/` 全量脚本；内容许可（CC BY-SA 4.0）补充 `locales/i18n.json` 中的译文
+
+### 已知问题（待处理）
+
+- 搜索同义词表存在**两份**：`docs/search-aliases.md`（经 `generate_alias_js.py` 同步进 `app.js`）与 `locales/i18n.json` 的 `searchAliases`，而运行时**优先使用后者**。因此当前对中文同义词的实际生效改动点是 `i18n.json`，`app.js` 中的表仅在 `i18n.json` 加载失败时兜底；两者需人工保持一致，建议后续为 `generate_alias_js.py` 增加同步 `i18n.json`（至少 `zh-CN`）的能力
+- `locales/i18n.json` 目前无生成脚本，四种语言的键与资源译文均手工维护
+
 ### 文件系统重构（对齐 MtF.wiki 仓库风格）
 
 - **删除** `_patch_html.py`（已废弃：index.html 直接 `<script src="app.js">`，不再需要 patch inline script）
@@ -22,7 +38,7 @@
 - [ ] 定期链接有效性自动检查（CI）
 - [ ] 在 parse_resources.py 中增加 `phone` 字段提取（配合 crisisCardHtml 真实显示电话）
 - [ ] 新增 Sitemap 生成脚本
-- [ ] 添加英文界面（i18n 基础架构）
+- [ ] 为 `generate_alias_js.py` 增加同步 `locales/i18n.json` 的能力（消除同义词表双份维护）
 - [ ] 间性人 / 无性恋专项资源扩充
 
 ---

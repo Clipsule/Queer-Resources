@@ -4,6 +4,12 @@
 > **维护方式**: 编辑本文件 → 运行 `python3 scripts/generate_alias_js.py` 自动同步 `app.js`。
 > **生成脚本**: `scripts/generate_alias_js.py` —— 从本文件的 Markdown 表格解析，自动注入 app.js 的 `/*BEGIN_ALIAS*/ ... /*END_ALIAS*/` 之间。
 > **精准性规则**: targets **不能是跨 2+ 不同意图条目的通用词**（如 "跨性别总称" 在 70 条里都有，会让 MtF 搜索也命中 FtM）。
+>
+> ⚠️ **本文件是中文同义词的权威来源，但运行时还有第二份表**：`app.js` 只有在 `locales/i18n.json` 加载失败时才会用到内置表；正常运行时使用的是 `locales/i18n.json` 里 `searchAliases.<当前语言>`。**新增 / 修改一组同义词时，两处都要改**：
+> 1. 本文件（中文权威来源）→ 跑 `python3 scripts/generate_alias_js.py` 同步进 `app.js`；
+> 2. `locales/i18n.json` 的 `searchAliases` 中，为各语言补上同一组（`zh-CN` 与本文件保持一致，其他语言在此基础上追加本地检索词）。
+>
+> **表格必须覆盖全部组**：脚本按表格逐组生成，**本文件缺少的组会在下次同步时从 `app.js` 中消失**。当前共 57 组，编号应连续到 57。
 
 ## 格式说明
 
@@ -212,6 +218,62 @@
 |---|---|
 | pass, 过关, 出柜, come out, 深柜, stealth | 出柜, come out |
 
+### 32. 性别焦虑 / 性别不安
+
+| aliases | targets |
+|---|---|
+| 性别焦虑, 性别不安, 性别烦躁, gd, gender dysphoria | 性别焦虑 |
+
+> target 目前未在 resources.js 中稳定出现，保留「原词」兜底匹配。
+
+### 33. 性别 / 性取向探索
+
+| aliases | targets |
+|---|---|
+| 探索, questioning, 疑问, 不确定 | 性取向探索, 性别探索 |
+
+### 34. 泛性恋 / 多性恋
+
+| aliases | targets |
+|---|---|
+| 泛性恋, pan, pansexual, 多性恋, polysexual | 泛性恋, 多性恋, pansexual |
+
+### 35. 浪漫取向
+
+| aliases | targets |
+|---|---|
+| 浪漫取向, 浪漫倾向, 双浪漫, 泛浪漫, 灰色浪漫 | 浪漫取向 |
+
+### 36. 多边恋 / 开放关系
+
+| aliases | targets |
+|---|---|
+| 多边恋, 开放关系, 非单偶, poly, polyamory | 多边恋, 开放关系, 非单偶 |
+
+### 37. 束胸 / 垫裆
+
+| aliases | targets |
+|---|---|
+| 束胸, binding, binder, 垫裆, packing, packer, tuck | 束胸, binding, packing, tuck |
+
+### 38. 网络骚扰
+
+| aliases | targets |
+|---|---|
+| 网暴, 人肉, doxxing, 网络骚扰, 仇恨言论 | 网络骚扰, 数字安全 |
+
+### 39. 生育 / 生殖
+
+| aliases | targets |
+|---|---|
+| 生育, 怀孕, 生殖, 冻卵, 冻精 | 生育, 生殖健康, fertility |
+
+### 40. 宗教 / 灵性
+
+| aliases | targets |
+|---|---|
+| 宗教, 信仰, 灵性, 教会, 寺庙 | 宗教, 灵性, 信仰 |
+
 ### 41. 变装 / CD / 伪娘 / 男娘
 
 | aliases | targets |
@@ -318,24 +380,29 @@
 
 ## 贡献流程
 
-1. 在本文件**末尾新增表格行**
+1. 在本文件**对应分组**下新增表格行（不要另起编号，保持组号连续）
 2. `aliases` 填用户可能搜的词；`targets` 必须是 `resources.js` 里**实际存在**且**不跨类别的 tag**
 3. **重要**: 先跑 `python3 scripts/generate_alias_js.py --check` 确认 targets 能命中真实条目
 4. 跑 `python3 scripts/generate_alias_js.py` 自动同步到 app.js
-5. 提 PR → 审核 → 合入
+5. 在 `locales/i18n.json` 的 `searchAliases` 各语言中补上同一组（`zh-CN` 与本文件一致）
+6. 提 PR → 审核 → 合入
 
 ## 测试
 
-打开 DevTools Console，快速验证：
+打开 DevTools Console 快速验证。注意 `QUERY_ALIAS_GROUPS` 定义在 `app.js` 的 IIFE 内部、**不是全局变量**；请通过 `window.QRi18n.aliasGroups()` 取当前语言实际生效的分组：
 
 ```js
-// 验证木桶饭只命中 MtF
-const group = QUERY_ALIAS_GROUPS.find(g => g.aliases.includes('木桶饭'));
+// 当前语言实际生效的同义词分组（运行时来自 locales/i18n.json）
+const groups = window.QRi18n.aliasGroups();
+console.log('共', groups.length, '组');
+
+// 验证：木桶饭只命中 MtF（与 FtM 零交集）
+const group = groups.find(g => g.aliases.includes('木桶饭'));
 console.log('木桶饭 →', group.targets); // 应该只有: 跨性别女性, 女性倾向, transfeminine
 
-// 验证不命中 FtM
-const ftmGroup = QUERY_ALIAS_GROUPS.find(g => g.aliases.includes('ftm'));
-console.log('FtM targets', ftmGroup.targets);
+const ftmGroup = groups.find(g => g.aliases.includes('ftm'));
 console.log('是否与木桶饭 targets 有交集？', group.targets.some(t => ftmGroup.targets.includes(t)));
 // 应该是 false ✅
 ```
+
+若 `i18n.json` 加载失败（例如用 `file://` 直开页面），`aliasGroups()` 返回 `null`，此时走 `app.js` 内置表 —— 该表与本文件是同一份数据，用来核对时可直接读 `app.js` 的 `/*BEGIN_ALIAS*/` 段落。

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>隐私政策 · Queer Resources</title>
-  <meta name="description" content="Queer Resources（酷儿资源库）隐私政策：不收集、不追踪、不存储任何用户数据。" />
+  <title data-i18n="privacy.meta.title">隐私政策 · Queer Resources</title>
+  <meta name="description" content="Queer Resources（酷儿资源库）隐私政策：不收集、不追踪、不存储任何用户数据。" data-i18n-attr="content=privacy.meta.description" />
   <meta name="theme-color" content="#FDFDFD" />
   <link rel="icon" type="image/png" href="assets/logo-sub.png" width="32" height="32" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -40,74 +40,75 @@
   </div>
   <header class="py-8 border-b border-slate-200/60 backdrop-blur-md bg-white/60 dark:bg-[rgba(10,10,12,0.75)] dark:border-white/80 sticky top-0 z-10">
     <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2.5 font-extrabold text-xl text-slate-800 dark:text-slate-100">
-        <img src="assets/logo-sub.png" alt="Queer Resources Logo" width="32" height="32" class="rounded-lg shadow object-contain"/>
-        <span>性少数资源库</span>
+      <a href="index.html" class="flex items-center gap-2.5 font-extrabold text-xl text-slate-800 dark:text-slate-100 min-w-0">
+        <img src="assets/logo-sub.png" alt="Queer Resources Logo" width="32" height="32" class="rounded-lg shadow object-contain shrink-0" data-i18n-attr="alt=privacy.header.logoAlt"/>
+        <span class="text-[15px] sm:text-[17px] xl:text-xl truncate" data-i18n="privacy.header.brand">性少数资源库</span>
       </a>
       <nav class="flex items-center gap-3 text-sm font-semibold text-slate-600 dark:text-slate-400">
-        <a href="index.html" class="hover:text-pink-600 transition-colors">← 返回首页</a>
-        <button id="themeToggleBtn" aria-label="切换深色/浅色模式" aria-pressed="false" class="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 transition-all border border-transparent hover:border-slate-200/60 dark:hover:border-white/10" type="button">
+        <a href="index.html" class="hover:text-pink-600 transition-colors" data-i18n="privacy.header.back">← 返回首页</a>
+        <button id="themeToggleBtn" aria-label="切换深色/浅色模式" aria-pressed="false" class="p-2 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/10 transition-all border border-transparent hover:border-slate-200/60 dark:hover:border-white/10" type="button" data-i18n-attr="aria-label=privacy.header.toggleTheme">
           <span aria-hidden="true" class="material-symbols-outlined text-[20px]" data-emoji="🌙">dark_mode</span>
         </button>
       </nav>
     </div>
+    <div id="langSwitchMobile" class="sm:hidden max-w-5xl mx-auto px-6 mt-3 -mb-5"></div>
   </header>
   <main class="max-w-3xl mx-auto px-6 py-14 space-y-10 relative z-10">
     <div class="space-y-4">
-      <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-slate-100">隐私政策</h1>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">最后更新：2026 年 10 月 · 简体中文版本</p>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-slate-100" data-i18n="privacy.title">隐私政策</h1>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-sm" data-i18n="privacy.lastUpdated">最后更新：2026 年 10 月 · 简体中文版本</p>
     </div>
 
     <section class="space-y-3">
-      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">1. 我们收集什么？</h2>
+      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100" data-i18n="privacy.s1.title">1. 我们收集什么？</h2>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
-        <strong>什么也不收集。</strong>
-        本站是一个纯静态网站，不运行任何后端服务，不使用任何分析脚本（Google Analytics、Fathom、Plausible 等均未接入），不放置任何第三方追踪 Cookie。
+        <strong data-i18n="privacy.s1.strong">什么也不收集。</strong>
+        <span data-i18n="privacy.s1.desc">本站是一个纯静态网站，不运行任何后端服务，不使用任何分析脚本（Google Analytics、Fathom、Plausible 等均未接入），不放置任何第三方追踪 Cookie。</span>
       </p>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="privacy.s1.desc2">
         你在站内的搜索、筛选操作全部在你自己的浏览器中执行，不会被发送到任何服务器。
       </p>
     </section>
 
     <section class="space-y-3">
-      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">2. localStorage 的使用</h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100" data-i18n="privacy.s2.title">2. localStorage 的使用</h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="privacy.s2.desc">
         本站仅使用浏览器的 <code class="bg-slate-200/70 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs">localStorage</code> 存储一项偏好：
       </p>
       <ul class="list-disc pl-6 space-y-1 text-slate-600 dark:text-slate-400 leading-relaxed">
-        <li><strong>主题偏好（qr-theme）</strong>：记住你上次选择的浅色 / 深色模式。这项数据只保存在你本机，随时可以在浏览器设置中清除，也不会被任何外部脚本读取。</li>
+        <li data-i18n="privacy.s2.item"><strong>主题偏好（qr-theme）</strong>：记住你上次选择的浅色 / 深色模式。这项数据只保存在你本机，随时可以在浏览器设置中清除，也不会被任何外部脚本读取。</li>
       </ul>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="privacy.s2.note">
         如果你禁用了 localStorage，本站依然可以正常使用，只是主题偏好不会被保留。
       </p>
     </section>
 
     <section class="space-y-3">
-      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">3. 第三方资源</h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100" data-i18n="privacy.s3.title">3. 第三方资源</h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="privacy.s3.desc">
         本站链接到大量第三方网站（组织、热线、指南等）。<strong>一旦你点击跳转到外部链接，你将进入该第三方的隐私政策管辖范围。</strong>
       </p>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="privacy.s3.desc2">
         本站对所有动态生成的外部链接都添加了 <code class="bg-slate-200/70 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs">rel="noopener noreferrer"</code>，以防止目标页面通过 <code class="bg-slate-200/70 dark:bg-white/10 px-1.5 py-0.5 rounded text-xs">window.opener</code> 访问你当前的浏览上下文。
       </p>
     </section>
 
     <section class="space-y-3">
-      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">4. 安全建议</h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100" data-i18n="privacy.s4.title">4. 安全建议</h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="privacy.s4.desc">
         请注意：浏览性少数相关内容或拨打危机热线，在某些地区可能被视为敏感行为。如果你的居住环境对性少数身份仍有法律或社会风险，建议：
       </p>
       <ul class="list-disc pl-6 space-y-1 text-slate-600 dark:text-slate-400 leading-relaxed">
         <li>使用可信的 <a href="https://www.torproject.org/zh-CN/" class="text-pink-600 hover:underline dark:text-pink-400" target="_blank" rel="noopener noreferrer">Tor 浏览器</a> 或经过审计的 VPN 服务；</li>
-        <li>使用公共设备后，清理浏览器历史、Cookie 和 localStorage；</li>
+        <li data-i18n="privacy.s4.item2">使用公共设备后，清理浏览器历史、Cookie 和 localStorage；</li>
         <li>直接拨打热线前，确认号码在你所在地区可达（例如 <a href="https://githri.org/" class="text-pink-600 hover:underline dark:text-pink-400" target="_blank" rel="noopener noreferrer">GITHRI</a> 提供全球危机热线索引）；</li>
-        <li>在任何设备上，优先使用 <strong>端到端加密</strong> 应用与他人沟通敏感信息。</li>
+        <li data-i18n="privacy.s4.item4">在任何设备上，优先使用 <strong>端到端加密</strong> 应用与他人沟通敏感信息。</li>
       </ul>
     </section>
 
     <section class="space-y-3">
-      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">5. 联系方式</h2>
-      <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+      <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100" data-i18n="privacy.s5.title">5. 联系方式</h2>
+      <p class="text-slate-600 dark:text-slate-400 leading-relaxed" data-i18n="privacy.s5.desc">
         如对本隐私政策有任何疑问，可通过以下邮箱联系我们（请在安全环境中发送）：
       </p>
       <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
@@ -115,9 +116,10 @@
       </p>
     </section>
   </main>
-  <footer class="py-8 border-t border-slate-200/60 dark:border-white/80 text-center text-sm text-slate-500 dark:text-slate-500 relative z-10">
+  <footer class="py-8 border-t border-slate-200/60 dark:border-white/80 text-center text-sm text-slate-500 dark:text-slate-500 relative z-10" data-i18n="privacy.footer">
     © 性少数资源库 · 本站内容以 CC BY-SA 4.0 许可开放使用
   </footer>
+  <script src="i18n.js"></script>
   <script>
     // 主题切换逻辑（与主站一致）
     (function(){

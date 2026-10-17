@@ -2,14 +2,14 @@
 <html class="scroll-smooth" lang="zh-CN"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="性少数资源库 — 温和、严谨与包容的 LGBTQIA+ 同行互助平台。跨性别、间性人、性别肯定医疗、危机热线、法律人权等社区索引。所有链接未经独立核验，请以机构官网为准。" name="description"/>
+<meta content="性少数资源库 — 温和、严谨与包容的 LGBTQIA+ 同行互助平台。跨性别、间性人、性别肯定医疗、危机热线、法律人权等社区索引。所有链接未经独立核验，请以机构官网为准。" name="description" data-i18n-attr="content=index.meta.description"/>
 <meta content="Queer Resources" name="author"/>
 <meta content="#FDFDFD" name="theme-color"/>
-<meta content="Queer Resources | 温和、严谨与包容的性少数同行互助平台" property="og:title"/>
-<meta content="性少数资源库 — 跨性别、间性人、性别肯定医疗、危机热线、法律人权等社区索引。所有链接未经独立核验。" property="og:description"/>
+<meta content="Queer Resources | 温和、严谨与包容的性少数同行互助平台" property="og:title" data-i18n-attr="content=index.meta.ogTitle"/>
+<meta content="性少数资源库 — 跨性别、间性人、性别肯定医疗、危机热线、法律人权等社区索引。所有链接未经独立核验。" property="og:description" data-i18n-attr="content=index.meta.ogDescription"/>
 <meta content="website" property="og:type"/>
 <meta content="zh_CN" property="og:locale"/>
-<title>Queer Resources | 温和、严谨与包容的性少数同行互助平台</title>
+<title data-i18n="index.meta.title">Queer Resources | 温和、严谨与包容的性少数同行互助平台</title>
 <link rel="icon" type="image/png" href="assets/logo-sub.png" width="32" height="32"/>
 <link rel="apple-touch-icon" href="assets/logo-sub.png" sizes="180x180"/>
 <meta property="og:image" content="assets/logo-main.png"/>
@@ -165,7 +165,7 @@
   </style>
 </head>
 <body class="bg-[#F8F9FD] text-text-primary min-h-screen antialiased flex flex-col selection:bg-pink-100 selection:text-pink-900 relative overflow-x-hidden font-sans" id="bodyRoot">
-<a class="skip-link" href="#main-content">跳到主内容</a>
+<a class="skip-link" href="#main-content" data-i18n="index.skipLink">跳到主内容</a>
 <div id="filterStatus" aria-live="polite" aria-atomic="true"></div>
 <!-- AURORA LIGHT BLOBS -->
 <div aria-hidden="true" class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -179,65 +179,65 @@
 <header class="bg-white/70 backdrop-blur-2xl border-b border-white/80 shadow-[0_4px_24px_rgba(0,0,0,0.03)] top-0 fixed w-full z-50 transition-all">
 <div class="w-full px-4 md:px-8 max-w-7xl mx-auto flex items-center justify-between gap-3 min-h-[64px] py-2">
 <div class="flex items-center gap-3 xl:gap-6 min-w-0">
-<a class="text-lg font-bold text-primary tracking-tight flex items-center gap-3 group shrink-0" href="index.html" data-nav="home" data-action="show-home">
-<img src="assets/logo-sub.png" alt="Queer Resources Logo" width="36" height="36" class="rounded-xl shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform duration-200 object-contain"/>
-<span class="font-extrabold text-[17px] xl:text-[19px] tracking-tight text-slate-800 dark:text-slate-100 whitespace-nowrap">性少数资源库</span>
+<a class="text-lg font-bold text-primary tracking-tight flex items-center gap-3 group min-w-0" href="index.html" data-nav="home" data-action="show-home">
+<img src="assets/logo-sub.png" alt="Queer Resources Logo" width="36" height="36" data-i18n-attr="alt=index.nav.logoAlt" class="rounded-xl shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform duration-200 object-contain shrink-0 w-8 h-8 sm:w-9 sm:h-9"/>
+<span class="font-extrabold text-[15px] sm:text-[17px] xl:text-[19px] tracking-tight text-slate-800 dark:text-slate-100 truncate" data-i18n="index.brand">性少数资源库</span>
 </a>
-<nav class="hidden lg:flex flex-wrap items-center gap-x-1.5 gap-y-1 xl:gap-x-6 text-[13px] xl:text-sm ml-2 xl:ml-4 font-medium text-slate-600" aria-label="主导航">
+<nav class="hidden lg:flex flex-nowrap overflow-x-auto [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden items-center gap-x-1.5 xl:gap-x-6 text-[13px] xl:text-sm ml-2 xl:ml-4 font-medium text-slate-600" aria-label="主导航" data-i18n-attr="aria-label=index.nav.ariaLabel">
   <a class="nav-item hover:text-slate-900 pb-1 transition-colors flex items-center gap-1 xl:gap-1.5 whitespace-nowrap" href="#" data-nav="home" data-action="show-home">
     <span aria-hidden="true" class="material-symbols-outlined text-[15px] xl:text-base">home</span>
-    <span>首页</span>
+    <span data-i18n="index.nav.home">首页</span>
   </a>
   <a class="nav-item hover:text-slate-900 pb-1 transition-colors flex items-center gap-1 xl:gap-1.5 whitespace-nowrap" href="#" data-nav="all" data-action="show-all">
     <span aria-hidden="true" class="material-symbols-outlined text-[15px] xl:text-base">explore</span>
-    <span>全部资源</span>
+    <span data-i18n="index.nav.all">全部资源</span>
   </a>
   <a class="nav-item hover:text-rose-600 pb-1 transition-colors flex items-center gap-1 xl:gap-1.5 whitespace-nowrap" href="crisis.html" data-nav="crisis">
     <span aria-hidden="true" class="material-symbols-outlined text-[15px] xl:text-base">phone_in_talk</span>
-    <span>求助热线</span>
+    <span data-i18n="index.nav.crisis">求助热线</span>
   </a>
   <a class="nav-item hover:text-slate-900 pb-1 transition-colors flex items-center gap-1 xl:gap-1.5 whitespace-nowrap" href="contributing.html" data-nav="contribute">
     <span aria-hidden="true" class="material-symbols-outlined text-[15px] xl:text-base">handshake</span>
-    <span>关于贡献</span>
+    <span data-i18n="index.nav.contribute">关于贡献</span>
   </a>
 </nav>
 </div>
 <div class="flex items-center gap-2.5 shrink-0">
-<button aria-label="打开菜单" aria-expanded="false" aria-controls="mobileNav" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-white/80 transition-all border border-transparent hover:border-white/80" id="mobileMenuBtn" type="button">
+<button aria-label="打开菜单" data-i18n-attr="aria-label=index.nav.openMenu" aria-expanded="false" aria-controls="mobileNav" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-white/80 transition-all border border-transparent hover:border-white/80" id="mobileMenuBtn" type="button">
 <span aria-hidden="true" class="w-[22px] h-[22px] flex items-center justify-center"><svg class="i-menu w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg><svg class="i-close w-[22px] h-[22px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
 </button>
-<button class="hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/85 border border-white/90 text-slate-500 text-xs hover:text-slate-800 hover:border-blue-400/40 shadow-sm transition-all shrink-0 whitespace-nowrap" data-action="focus-search" type="button">
+<button class="hidden md:flex lg:hidden items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/85 border border-white/90 text-slate-500 text-xs hover:text-slate-800 hover:border-blue-400/40 shadow-sm transition-all shrink-0 whitespace-nowrap" data-action="focus-search" type="button">
 <span aria-hidden="true" class="material-symbols-outlined text-base text-blue-600">search</span>
-<span>按 Ctrl+K / ⌘K 快速检索</span>
+<span data-i18n="index.nav.searchShortcut">按 Ctrl+K / ⌘K 快速检索</span>
 </button>
-<button aria-label="切换深色/浅色模式" aria-pressed="false" class="p-2 rounded-xl text-slate-600 hover:bg-white/80 transition-all border border-transparent hover:border-white/80 shrink-0" id="themeToggleBtn" type="button">
+<button aria-label="切换深色/浅色模式" data-i18n-attr="aria-label=index.nav.toggleTheme" aria-pressed="false" class="p-2 rounded-xl text-slate-600 hover:bg-white/80 transition-all border border-transparent hover:border-white/80 shrink-0" id="themeToggleBtn" type="button">
 <span aria-hidden="true" class="material-symbols-outlined text-[20px]" data-emoji="🌙">dark_mode</span>
 </button>
-<a aria-label="紧急求助" class="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 hover:opacity-95 text-white px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_4px_16px_rgba(244,63,94,0.35)] transition-all active:scale-[0.98] border border-white/40 shrink-0 whitespace-nowrap" href="crisis.html" rel="noopener noreferrer">
+<a aria-label="紧急求助" data-i18n-attr="aria-label=index.nav.emergency" class="bg-gradient-to-r from-rose-500 via-pink-500 to-rose-500 hover:opacity-95 text-white px-2.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_4px_16px_rgba(244,63,94,0.35)] transition-all active:scale-[0.98] border border-white/40 shrink-0 whitespace-nowrap" href="crisis.html" rel="noopener noreferrer">
 <span aria-hidden="true" class="material-symbols-outlined text-base" style="font-variation-settings: 'FILL' 1;">sos</span>
-<span>紧急求助</span>
+<span class="max-[479px]:hidden" data-i18n="index.nav.emergency">紧急求助</span>
 </a>
 </div>
 </div>
 <div class="aurora-header-line w-full"></div>
 <!-- 移动端导航抽屉 -->
 <div id="mobileNav" class="lg:hidden border-t border-white/60 bg-white/80 backdrop-blur-xl">
-  <nav class="px-4 py-2 space-y-1 text-sm font-medium" aria-label="移动端导航">
+  <nav class="px-4 py-2 space-y-1 text-sm font-medium" aria-label="移动端导航" data-i18n-attr="aria-label=index.nav.mobileAriaLabel">
     <a class="mobile-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-white/90 hover:text-blue-600 transition-all" href="#" data-nav="home" data-action="show-home">
-      <svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h3v-6h6v6h3a1 1 0 0 0 1-1V9.5"/></svg><span>首页</span>
+      <svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h3v-6h6v6h3a1 1 0 0 0 1-1V9.5"/></svg><span data-i18n="index.nav.home">首页</span>
     </a>
     <a class="mobile-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-white/90 hover:text-blue-600 transition-all" href="#" data-nav="all" data-action="show-all">
-      <svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span>全部资源</span>
+      <svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span data-i18n="index.nav.all">全部资源</span>
     </a>
     <a class="mobile-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 transition-all" href="crisis.html" data-nav="crisis">
-      <svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5c0-.6.4-1 1-1h2.2c.5 0 .9.3 1 .8l.7 2.8a1 1 0 0 1-.3 1L7.5 10.2a12 12 0 0 0 6.3 6.3l1.3-1.3a1 1 0 0 1 1-.3l2.8.7c.5.1.8.5.8 1V19c0 .6-.4 1-1 1A15.5 15.5 0 0 1 4 5.5Z"/></svg><span>求助热线</span>
+      <svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5c0-.6.4-1 1-1h2.2c.5 0 .9.3 1 .8l.7 2.8a1 1 0 0 1-.3 1L7.5 10.2a12 12 0 0 0 6.3 6.3l1.3-1.3a1 1 0 0 1 1-.3l2.8.7c.5.1.8.5.8 1V19c0 .6-.4 1-1 1A15.5 15.5 0 0 1 4 5.5Z"/></svg><span data-i18n="index.nav.crisis">求助热线</span>
     </a>
     <a class="mobile-nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-white/90 hover:text-blue-600 transition-all" href="contributing.html" data-nav="contribute">
-      <svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.6 20a5.4 5.4 0 0 1 10.8 0"/><path d="M18.5 8v6M15.5 11h6"/></svg><span>关于贡献</span>
+      <svg aria-hidden="true" class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.6 20a5.4 5.4 0 0 1 10.8 0"/><path d="M18.5 8v6M15.5 11h6"/></svg><span data-i18n="index.nav.contribute">关于贡献</span>
     </a>
     <!-- 移动端搜索快捷入口 -->
     <button class="mobile-nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-700 hover:bg-white/90 hover:text-blue-600 transition-all" data-action="focus-search" type="button">
-      <svg aria-hidden="true" class="w-4 h-4 shrink-0 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>搜索条目...</span>
+      <svg aria-hidden="true" class="w-4 h-4 shrink-0 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span data-i18n="index.nav.mobileSearch">搜索条目...</span>
     </button>
   </nav>
 </div>
@@ -252,11 +252,11 @@
         <div class="w-6 h-6 rounded-full bg-rose-500/20 flex items-center justify-center flex-shrink-0">
           <span aria-hidden="true" class="material-symbols-outlined text-rose-700 text-sm animate-pulse" style="font-variation-settings: 'FILL' 1;">emergency_home</span>
         </div>
-        <p class="text-xs md:text-sm font-medium truncate leading-relaxed"><strong class="font-bold text-rose-800">危机安全警示：</strong> 如您当前处于即时身体危险或自残危机，请立即联系当地急救电话（110 / 120 / 999 / 911 / 988）或前往就近医院急诊。</p>
+        <p class="text-xs md:text-sm font-medium truncate leading-relaxed"><strong class="font-bold text-rose-800" data-i18n="index.safety.warning">危机安全警示：</strong> <span data-i18n="index.safety.text">如您当前处于即时身体危险或自残危机，请立即联系当地急救电话（110 / 120 / 999 / 911 / 988）或前往就近医院急诊。</span></p>
       </div>
       <div class="flex items-center gap-3 flex-shrink-0 ml-3">
-        <a class="text-xs font-semibold text-rose-700 hover:text-rose-900 underline underline-offset-2 flex items-center gap-1 whitespace-nowrap" href="#crisis-support"><span>展开求助热线</span><span aria-hidden="true" class="material-symbols-outlined text-xs">arrow_forward</span></a>
-        <button aria-label="关闭安全提示" class="text-rose-800 hover:bg-rose-200/50 p-1 rounded-full flex items-center justify-center transition-colors" data-action="close-safety-banner" type="button"><span aria-hidden="true" class="material-symbols-outlined text-sm" data-emoji="✕">close</span></button>
+        <a class="text-xs font-semibold text-rose-700 hover:text-rose-900 underline underline-offset-2 flex items-center gap-1 whitespace-nowrap" href="#crisis-support"><span data-i18n="index.safety.expand">展开求助热线</span><span aria-hidden="true" class="material-symbols-outlined text-xs">arrow_forward</span></a>
+        <button aria-label="关闭安全提示" data-i18n-attr="aria-label=index.safety.close" class="text-rose-800 hover:bg-rose-200/50 p-1 rounded-full flex items-center justify-center transition-colors" data-action="close-safety-banner" type="button"><span aria-hidden="true" class="material-symbols-outlined text-sm" data-emoji="✕">close</span></button>
       </div>
     </div>
   </section>
@@ -265,28 +265,28 @@
     <div class="text-center max-w-4xl mx-auto space-y-5">
       <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white/70 border border-white/90 shadow-sm backdrop-blur-md">
         <span aria-hidden="true" class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
-        <span class="text-xs font-semibold text-slate-700 tracking-wide uppercase">社区索引 · LGBTQIA+ 资源库 v1.0</span>
-        <span class="text-slate-400 text-xs">| 2026-10-14 更新 · 未独立核验</span>
+        <span class="text-xs font-semibold text-slate-700 tracking-wide uppercase" data-i18n="index.hero.badge">社区索引 · LGBTQIA+ 资源库 v1.0</span>
+        <span class="text-slate-400 text-xs" data-i18n="index.hero.badgeMeta">| 2026-10-14 更新 · 未独立核验</span>
       </div>
       
-      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#1D1D1F] leading-[1.15]" id="hero-title">温和、严谨与包容的<br/><span class="text-[#1a58b7] dark:text-[#7AA5FF]">性少数资源库</span></h1>
-      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal">按功能收录跨性别、间性人、多元性取向、性别肯定医疗、危机热线、法律人权与生活支持条目。标签只作检索，不作诊断或服务承诺。</p>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#1D1D1F] leading-[1.15]" id="hero-title"><span data-i18n="index.hero.titleLine1">温和、严谨与包容的</span><br/><span class="text-[#1a58b7] dark:text-[#7AA5FF]" data-i18n="index.hero.titleLine2">性少数资源库</span></h1>
+      <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed font-normal" data-i18n="index.hero.desc">按功能收录跨性别、间性人、多元性取向、性别肯定医疗、危机热线、法律人权与生活支持条目。标签只作检索，不作诊断或服务承诺。</p>
       <div class="pt-3 max-w-3xl mx-auto">
         <div class="search-glow-container rounded-full pl-4 pr-1.5 py-1.5 sm:pl-5 sm:pr-2 sm:py-2 flex items-center gap-2">
-          <label class="sr-only" for="searchInput">搜索资源条目、疾病代码、HRT 指南、法律条文或机构名称</label>
+          <label class="sr-only" for="searchInput" data-i18n="index.search.label">搜索资源条目、疾病代码、HRT 指南、法律条文或机构名称</label>
           <span aria-hidden="true" class="material-symbols-outlined text-slate-400 text-xl shrink-0">search</span>
-          <input class="flex-1 min-w-0 bg-transparent border-0 py-2 text-[#1D1D1F] placeholder-slate-400 text-sm sm:text-base focus:outline-none focus:ring-0" id="searchInput" placeholder="搜索条目、疾病代码、HRT指南、法律条文或机构名称..." type="text" autocomplete="off"/>
-          <button aria-label="搜索资源" class="shrink-0 bg-[#1A58B7] hover:bg-[#15499A] text-white px-4 sm:px-6 py-2.5 rounded-full text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors active:scale-[0.98]" id="heroSearchBtn" type="button">
-            <span aria-hidden="true" class="material-symbols-outlined text-base sm:text-lg">search</span><span>搜索</span>
+          <input class="flex-1 min-w-0 bg-transparent border-0 py-2 text-[#1D1D1F] placeholder-slate-400 text-sm sm:text-base focus:outline-none focus:ring-0" id="searchInput" placeholder="搜索条目、疾病代码、HRT指南、法律条文或机构名称..." data-i18n-attr="placeholder=index.search.placeholder" type="text" autocomplete="off"/>
+          <button aria-label="搜索资源" data-i18n-attr="aria-label=index.search.ariaLabel" class="shrink-0 bg-[#1A58B7] hover:bg-[#15499A] text-white px-4 sm:px-6 py-2.5 rounded-full text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors active:scale-[0.98]" id="heroSearchBtn" type="button">
+            <span aria-hidden="true" class="material-symbols-outlined text-base sm:text-lg">search</span><span data-i18n="index.search.button">搜索</span>
           </button>
         </div>
         <div class="flex flex-wrap items-center justify-center gap-2 mt-4 pt-1">
-          <span class="text-xs text-slate-500 flex items-center gap-1 mr-1 font-semibold"><span aria-hidden="true" class="material-symbols-outlined text-sm text-rose-500">local_fire_department</span><span>热门检索：</span></span>
-          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-pink-700 bg-pink-50/80 border border-pink-200/70 hover:bg-pink-100/90" data-action="quick-search" data-query="跨性别" type="button"># 跨性别女性 / MtF</button>
-          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-blue-700 bg-blue-50/80 border border-blue-200/70 hover:bg-blue-100/90" data-action="quick-search" data-query="激素" type="button"># 性别肯定治疗 (HRT)</button>
-          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-emerald-800 bg-emerald-50/80 border border-emerald-200/70 hover:bg-emerald-100/90" data-action="quick-search" data-query="间性" type="button"># 间性人权益</button>
-          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-indigo-700 bg-indigo-50/80 border border-indigo-200/70 hover:bg-indigo-100/90" data-action="quick-search" data-query="WPATH" type="button"># WPATH SOC8</button>
-          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-rose-700 bg-rose-50/80 border border-rose-200/70 hover:bg-rose-100/90" data-action="quick-search" data-query="热线" type="button"># 24H 心理援助</button>
+          <span class="text-xs text-slate-500 flex items-center gap-1 mr-1 font-semibold"><span aria-hidden="true" class="material-symbols-outlined text-sm text-rose-500">local_fire_department</span><span data-i18n="index.hot.hint">热门检索：</span></span>
+          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-pink-700 bg-pink-50/80 border border-pink-200/70 hover:bg-pink-100/90" data-action="quick-search" data-query="跨性别" type="button" data-i18n="index.hot.mtf"># 跨性别女性 / MtF</button>
+          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-blue-700 bg-blue-50/80 border border-blue-200/70 hover:bg-blue-100/90" data-action="quick-search" data-query="激素" type="button" data-i18n="index.hot.hrt"># 性别肯定治疗 (HRT)</button>
+          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-emerald-800 bg-emerald-50/80 border border-emerald-200/70 hover:bg-emerald-100/90" data-action="quick-search" data-query="间性" type="button" data-i18n="index.hot.intersex"># 间性人权益</button>
+          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-indigo-700 bg-indigo-50/80 border border-indigo-200/70 hover:bg-indigo-100/90" data-action="quick-search" data-query="WPATH" type="button" data-i18n="index.hot.wpath"># WPATH SOC8</button>
+          <button class="glass-pill px-3.5 py-1.5 rounded-full text-xs font-semibold text-rose-700 bg-rose-50/80 border border-rose-200/70 hover:bg-rose-100/90" data-action="quick-search" data-query="热线" type="button" data-i18n="index.hot.hotline"># 24H 心理援助</button>
         </div>
       </div>
     </div>
@@ -295,11 +295,11 @@
   <main class="max-w-7xl mx-auto px-4 md:px-8 pb-8 w-full" id="main-content" tabindex="-1">
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight">精选资源</h2>
-        <p class="text-sm text-slate-500 mt-1">这里展示了部分常用的资源条目，可查看<span id="heroResourceHint"> … </span> 点击右侧按钮。</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight" data-i18n="index.featured.title">精选资源</h2>
+        <p class="text-sm text-slate-500 mt-1" data-i18n-html="index.featured.desc">这里展示了部分常用的资源条目，可查看<span id="heroResourceHint"> … </span> 点击右侧按钮。</p>
       </div>
       <button data-action="show-all" class="glass-pill px-3.5 py-2 rounded-full text-xs font-semibold text-[#1a58b7] hover:bg-blue-50/90 flex items-center gap-1.5 transition-all active:scale-[0.98] shrink-0" type="button">
-        <span aria-hidden="true" class="material-symbols-outlined text-base">list</span><span>浏览全部资源</span>
+        <span aria-hidden="true" class="material-symbols-outlined text-base">list</span><span data-i18n="index.featured.browseAll">浏览全部资源</span>
       </button>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featuredGrid"></div>
@@ -311,14 +311,14 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
         <div class="lg:col-span-7 space-y-4">
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-200/60">
-            <span aria-hidden="true" class="material-symbols-outlined text-sm">edit_note</span><span>人人为我，我为人人 · 开源共同维护</span>
+            <span aria-hidden="true" class="material-symbols-outlined text-sm">edit_note</span><span data-i18n="index.submit.badge">人人为我，我为人人 · 开源共同维护</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight" id="submit-title">发现失效链接，或有更优质的同行条目？</h2>
-          <p class="text-sm sm:text-base text-slate-600 leading-relaxed">本平台恪守"非商业化、去污名化、科学循证与安全第一"的收录准则。所有条目未经独立核验，请以机构官网为准。</p>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight" id="submit-title" data-i18n="index.submit.title">发现失效链接，或有更优质的同行条目？</h2>
+          <p class="text-sm sm:text-base text-slate-600 leading-relaxed" data-i18n="index.submit.desc">本平台恪守"非商业化、去污名化、科学循证与安全第一"的收录准则。所有条目未经独立核验，请以机构官网为准。</p>
         </div>
         <div class="lg:col-span-5 flex flex-col sm:flex-row lg:flex-col gap-3.5 justify-center">
-          <a class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:opacity-95 text-white py-3.5 px-6 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(37,99,235,0.28)] transition-all active:scale-[0.98]" href="https://github.com/Clipsule/Queer-Resources" target="_blank" rel="noopener noreferrer"><span aria-hidden="true" class="material-symbols-outlined text-lg">code_blocks</span><span>在 GitHub 上提交 PR / Issue</span></a>
-          <a class="glass-pill text-slate-800 py-3.5 px-6 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-white transition-all active:scale-[0.98] border border-white/95" href="mailto:queer-resources@clipsule.cn" rel="noopener noreferrer"><span aria-hidden="true" class="material-symbols-outlined text-lg text-blue-600">mail</span><span>通过安全邮件提交新收录</span></a>
+          <a class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:opacity-95 text-white py-3.5 px-6 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(37,99,235,0.28)] transition-all active:scale-[0.98]" href="https://github.com/Clipsule/Queer-Resources" target="_blank" rel="noopener noreferrer"><span aria-hidden="true" class="material-symbols-outlined text-lg">code_blocks</span><span data-i18n="index.submit.github">在 GitHub 上提交 PR / Issue</span></a>
+          <a class="glass-pill text-slate-800 py-3.5 px-6 rounded-2xl text-sm font-bold flex items-center justify-center gap-2 hover:bg-white transition-all active:scale-[0.98] border border-white/95" href="mailto:queer-resources@clipsule.cn" rel="noopener noreferrer"><span aria-hidden="true" class="material-symbols-outlined text-lg text-blue-600">mail</span><span data-i18n="index.submit.mail">通过安全邮件提交新收录</span></a>
         </div>
       </div>
     </div>
@@ -329,12 +329,12 @@
       <div class="flex items-center gap-3 pb-4 border-b border-slate-200/60 mb-5">
         <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center flex-shrink-0 shadow-sm border border-rose-100"><span aria-hidden="true" class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">phone_in_talk</span></div>
         <div>
-          <h2 class="text-lg font-bold text-slate-900" id="crisis-title">心理危机与同行支持热线</h2>
-          <p class="text-xs text-slate-500">免费 · 严格保密 · 同伴倾听。如果遇到困难，请不要独自承受。所有电话号未经独立核验，请以机构官网为准。</p>
+          <h2 class="text-lg font-bold text-slate-900" id="crisis-title" data-i18n="index.homeCrisis.title">心理危机与同行支持热线</h2>
+          <p class="text-xs text-slate-500" data-i18n="index.homeCrisis.desc">免费 · 严格保密 · 同伴倾听。如果遇到困难，请不要独自承受。所有电话号未经独立核验，请以机构官网为准。</p>
         </div>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="crisisGrid"></div>
-      <p class="text-xs text-slate-400 mt-4">本页不提供医疗、法律或危机咨询。如果您处于紧急危险中，请直接拨打当地急救电话。</p>
+      <p class="text-xs text-slate-400 mt-4" data-i18n="index.homeCrisis.note">本页不提供医疗、法律或危机咨询。如果您处于紧急危险中，请直接拨打当地急救电话。</p>
     </div>
   </section>
 </div>
@@ -344,58 +344,58 @@
   <main class="max-w-7xl mx-auto px-4 md:px-8 py-8 w-full" tabindex="-1">
     <div class="flex items-center justify-between mb-6">
       <div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight">全部资源</h2>
-        <p class="text-sm text-slate-500 mt-1">共收录 <span id="totalCount">…</span> 条社区索引（未独立核验）。支持搜索、分类筛选与地区筛选。</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight" data-i18n="index.all.title">全部资源</h2>
+        <p class="text-sm text-slate-500 mt-1" data-i18n-html="index.all.desc">共收录 <span id="totalCount">…</span> 条社区索引（未独立核验）。支持搜索、分类筛选与地区筛选。</p>
       </div>
       <button data-action="show-home" class="glass-pill px-5 py-3 rounded-2xl text-sm font-bold flex items-center gap-2 hover:bg-white transition-all flex-shrink-0" type="button">
-        <span aria-hidden="true" class="material-symbols-outlined text-lg text-blue-600">arrow_back</span><span>返回首页</span>
+        <span aria-hidden="true" class="material-symbols-outlined text-lg text-blue-600">arrow_back</span><span data-i18n="index.all.back">返回首页</span>
       </button>
     </div>
 
-    <div class="mb-6" id="categories" role="tablist" aria-label="资源分类">
+    <div class="mb-6" id="categories" role="tablist" aria-label="资源分类" data-i18n-attr="aria-label=index.categories.ariaLabel">
       <div class="flex flex-wrap items-center gap-2 pb-2 border-b border-slate-200/60">
-        <button aria-pressed="true" class="category-btn active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20 transition-all" data-category="all" role="tab" type="button">全部资源</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="wiki" role="tab" type="button">综合百科与知识库</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="identity" role="tab" type="button">性别认同与间性</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="orientation" role="tab" type="button">性取向与浪漫取向</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="medical" role="tab" type="button">医疗与性别肯定</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="crisis" role="tab" type="button">心理危机干预</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="legal" role="tab" type="button">法律政策与人权</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="youth" role="tab" type="button">青年、家庭与教育</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="voice" role="tab" type="button">声音与表达</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="workplace" role="tab" type="button">就业与职场</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="community" role="tab" type="button">社区、文化与媒体</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="safety" role="tab" type="button">数字安全与隐私</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="directory" role="tab" type="button">组织目录</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="data" role="tab" type="button">数据与地图</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="housing" role="tab" type="button">住房、长者与生活</button>
-        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="violence" role="tab" type="button">暴力与求助</button>
+        <button aria-pressed="true" class="category-btn active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/20 transition-all" data-category="all" role="tab" type="button" data-i18n="index.category.all">全部资源</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="wiki" role="tab" type="button" data-i18n="index.category.wiki">综合百科与知识库</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="identity" role="tab" type="button" data-i18n="index.category.identity">性别认同与间性</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="orientation" role="tab" type="button" data-i18n="index.category.orientation">性取向与浪漫取向</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="medical" role="tab" type="button" data-i18n="index.category.medical">医疗与性别肯定</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="crisis" role="tab" type="button" data-i18n="index.category.crisis">心理危机干预</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="legal" role="tab" type="button" data-i18n="index.category.legal">法律政策与人权</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="youth" role="tab" type="button" data-i18n="index.category.youth">青年、家庭与教育</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="voice" role="tab" type="button" data-i18n="index.category.voice">声音与表达</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="workplace" role="tab" type="button" data-i18n="index.category.workplace">就业与职场</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="community" role="tab" type="button" data-i18n="index.category.community">社区、文化与媒体</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="safety" role="tab" type="button" data-i18n="index.category.safety">数字安全与隐私</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="directory" role="tab" type="button" data-i18n="index.category.directory">组织目录</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="data" role="tab" type="button" data-i18n="index.category.data">数据与地图</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="housing" role="tab" type="button" data-i18n="index.category.housing">住房、长者与生活</button>
+        <button aria-pressed="false" class="category-btn px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-white/70 text-slate-600 hover:text-slate-900 hover:bg-white/90 border border-white/80 transition-all" data-category="violence" role="tab" type="button" data-i18n="index.category.violence">暴力与求助</button>
       </div>
     </div>
 
     <div class="flex flex-wrap items-center justify-between gap-3 mb-6 bg-white/60 backdrop-blur-md p-3.5 rounded-2xl border border-white/85 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
       <div class="flex items-center gap-2 min-w-[260px] w-full md:w-auto md:flex-shrink-0">
         <span aria-hidden="true" class="material-symbols-outlined text-slate-400 text-lg pl-2">search</span>
-        <input aria-label="在全部资源中搜索" class="flex-grow min-w-[200px] py-2 px-3 rounded-xl bg-white/85 border border-slate-200/60 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-400 transition-all" id="searchInputAll" placeholder="搜索资源条目、疾病代码、HRT指南..." type="text" autocomplete="off"/>
-        <button aria-label="清除搜索" class="text-slate-400 hover:text-slate-600 transition-colors text-sm hidden" id="searchClearAll" type="button">
+        <input aria-label="在全部资源中搜索" data-i18n-attr="aria-label=index.filter.searchAriaLabel;placeholder=index.filter.searchPlaceholder" class="flex-grow min-w-[200px] py-2 px-3 rounded-xl bg-white/85 border border-slate-200/60 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-blue-400 transition-all" id="searchInputAll" placeholder="搜索资源条目、疾病代码、HRT指南..." type="text" autocomplete="off"/>
+        <button aria-label="清除搜索" data-i18n-attr="aria-label=index.filter.clearAriaLabel" class="text-slate-400 hover:text-slate-600 transition-colors text-sm hidden" id="searchClearAll" type="button">
           <span aria-hidden="true" class="material-symbols-outlined text-base" data-emoji="✕">close</span>
         </button>
       </div>
       <div class="flex flex-wrap items-center gap-2 text-xs">
-        <span class="text-slate-500 font-bold flex items-center gap-1"><span aria-hidden="true" class="material-symbols-outlined text-sm">filter_alt</span><span>资源类型:</span></span>
-        <button aria-pressed="true" class="type-btn px-3 py-1 rounded-full bg-blue-600 text-white font-semibold shadow-sm transition-all" data-type="all" type="button">全部类型</button>
-        <button aria-pressed="false" class="type-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-type="clinical" type="button">专业临床规范</button>
-        <button aria-pressed="false" class="type-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-type="wiki" type="button">社群开源 Wiki</button>
-        <button aria-pressed="false" class="type-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-type="ngo" type="button">组织与服务</button>
-        <button aria-pressed="false" class="type-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-type="academic" type="button">学术指南与研究</button>
+        <span class="text-slate-500 font-bold flex items-center gap-1"><span aria-hidden="true" class="material-symbols-outlined text-sm">filter_alt</span><span data-i18n="index.filter.typeLabel">资源类型:</span></span>
+        <button aria-pressed="true" class="type-btn px-3 py-1 rounded-full bg-blue-600 text-white font-semibold shadow-sm transition-all" data-type="all" type="button" data-i18n="index.filter.type.all">全部类型</button>
+        <button aria-pressed="false" class="type-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-type="clinical" type="button" data-i18n="index.filter.type.clinical">专业临床规范</button>
+        <button aria-pressed="false" class="type-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-type="wiki" type="button" data-i18n="index.filter.type.wiki">社群开源 Wiki</button>
+        <button aria-pressed="false" class="type-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-type="ngo" type="button" data-i18n="index.filter.type.ngo">组织与服务</button>
+        <button aria-pressed="false" class="type-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-type="academic" type="button" data-i18n="index.filter.type.academic">学术指南与研究</button>
       </div>
       <div class="flex flex-wrap items-center gap-2 text-xs mt-2 md:mt-0">
-        <span class="text-slate-500 font-bold flex items-center gap-1"><span aria-hidden="true" class="material-symbols-outlined text-sm">public</span><span>地区:</span></span>
-        <button aria-pressed="true" class="region-btn px-3 py-1 rounded-full bg-blue-600 text-white font-semibold shadow-sm transition-all" data-region="all" type="button">全部地区</button>
-        <button aria-pressed="false" class="region-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-region="cn" type="button">中国大陆</button>
-        <button aria-pressed="false" class="region-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-region="tw" type="button">中国台湾</button>
-        <button aria-pressed="false" class="region-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-region="hk" type="button">中国香港</button>
-        <button aria-pressed="false" class="region-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-region="intl" type="button">国际 / 其他</button>
+        <span class="text-slate-500 font-bold flex items-center gap-1"><span aria-hidden="true" class="material-symbols-outlined text-sm">public</span><span data-i18n="index.filter.regionLabel">地区:</span></span>
+        <button aria-pressed="true" class="region-btn px-3 py-1 rounded-full bg-blue-600 text-white font-semibold shadow-sm transition-all" data-region="all" type="button" data-i18n="index.filter.region.all">全部地区</button>
+        <button aria-pressed="false" class="region-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-region="cn" type="button" data-i18n="index.filter.region.cn">中国大陆</button>
+        <button aria-pressed="false" class="region-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-region="tw" type="button" data-i18n="index.filter.region.tw">中国台湾</button>
+        <button aria-pressed="false" class="region-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-region="hk" type="button" data-i18n="index.filter.region.hk">中国香港</button>
+        <button aria-pressed="false" class="region-btn px-3 py-1 rounded-full bg-white/85 text-slate-600 hover:text-slate-900 border border-slate-200/60 transition-all" data-region="intl" type="button" data-i18n="index.filter.region.intl">国际 / 其他</button>
       </div>
       <div class="flex items-center gap-2 text-xs font-semibold text-slate-600 bg-white/80 px-3 py-1.5 rounded-full border border-white/90 shadow-sm" id="visibleCountLabel">
         <span aria-hidden="true" class="material-symbols-outlined text-sm text-blue-600">sort</span>
@@ -406,9 +406,9 @@
     <div class="space-y-10" id="resourceGrid"></div>
     <div class="hidden py-16 text-center" id="noResults" role="status">
       <span aria-hidden="true" class="material-symbols-outlined text-4xl text-slate-400 mb-2">search_off</span>
-      <h4 class="text-lg font-bold text-slate-800">未找到匹配的资源</h4>
-      <p class="text-sm text-slate-500 mt-1">尝试缩短关键词、更换分类，或点击下方按钮重置全部筛选条件。</p>
-      <button class="mt-4 px-5 py-2 rounded-2xl bg-blue-600 text-white text-xs font-bold shadow-md" data-action="reset-filters" type="button">重置搜索条件</button>
+      <h4 class="text-lg font-bold text-slate-800" data-i18n="index.empty.title">未找到匹配的资源</h4>
+      <p class="text-sm text-slate-500 mt-1" data-i18n="index.empty.desc">尝试缩短关键词、更换分类，或点击下方按钮重置全部筛选条件。</p>
+      <button class="mt-4 px-5 py-2 rounded-2xl bg-blue-600 text-white text-xs font-bold shadow-md" data-action="reset-filters" type="button" data-i18n="index.empty.reset">重置搜索条件</button>
     </div>
   </main>
 </div>
@@ -421,43 +421,43 @@
     <div class="col-span-2 md:col-span-1">
       <div class="flex items-center gap-2.5 mb-3">
         <img src="assets/logo-sub.png" alt="Queer Resources" width="28" height="28" class="rounded-lg object-contain"/>
-        <span class="font-extrabold text-lg text-[#1D1D1F] tracking-tight">性少数资源库</span>
+        <span class="font-extrabold text-lg text-[#1D1D1F] tracking-tight" data-i18n="index.footer.brand">性少数资源库</span>
       </div>
-      <p class="text-xs text-slate-500 leading-relaxed mb-4">
+      <p class="text-xs text-slate-500 leading-relaxed mb-4" data-i18n-html="index.footer.tagline">
         温和、严谨与包容的<br/>性少数同行互助资源库
       </p>
-      <p class="text-[11px] text-slate-400 leading-relaxed">
+      <p class="text-[11px] text-slate-400 leading-relaxed" data-i18n-html="index.footer.copyright">
         © 2026 性少数资源库<br/>保留所有权利。
       </p>
     </div>
 
     <!-- 项目 -->
     <div>
-      <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3">项目</h4>
+      <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3" data-i18n="index.footer.col.project">项目</h4>
       <ul class="space-y-2 text-xs">
-        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="contributing.html">贡献者指南</a></li>
-        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="https://github.com/Clipsule/Queer-Resources" rel="noopener noreferrer" target="_blank">GitHub 仓库</a></li>
-        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="privacy.html">隐私政策</a></li>
-        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="crisis.html">危机求助热线</a></li>
+        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="contributing.html" data-i18n="index.footer.project.guide">贡献者指南</a></li>
+        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="https://github.com/Clipsule/Queer-Resources" rel="noopener noreferrer" target="_blank" data-i18n="index.footer.project.github">GitHub 仓库</a></li>
+        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="privacy.html" data-i18n="index.footer.project.privacy">隐私政策</a></li>
+        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="crisis.html" data-i18n="index.footer.project.crisis">危机求助热线</a></li>
       </ul>
     </div>
 
     <!-- 动态 -->
     <div>
-      <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3">动态</h4>
+      <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3" data-i18n="index.footer.col.updates">动态</h4>
       <ul class="space-y-2 text-xs">
-        <li><a class="text-slate-500 hover:text-sky-500 transition-colors" href="https://x.com/qingmao_ovo" rel="noopener noreferrer" target="_blank">X / Twitter · @qingmao_ovo</a></li>
-        <li><a class="text-slate-500 hover:text-blue-500 transition-colors" href="https://t.me/+uPey6QU-zqowODhl" rel="noopener noreferrer" target="_blank">Telegram 群</a></li>
+        <li><a class="text-slate-500 hover:text-sky-500 transition-colors" href="https://x.com/qingmao_ovo" rel="noopener noreferrer" target="_blank" data-i18n="index.footer.updates.x">X / Twitter · @qingmao_ovo</a></li>
+        <li><a class="text-slate-500 hover:text-blue-500 transition-colors" href="https://t.me/+uPey6QU-zqowODhl" rel="noopener noreferrer" target="_blank" data-i18n="index.footer.updates.telegram">Telegram 群</a></li>
       </ul>
     </div>
 
     <!-- 联系 -->
     <div>
-      <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3">联系</h4>
+      <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3" data-i18n="index.footer.col.contact">联系</h4>
       <ul class="space-y-2 text-xs">
-        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="mailto:queer-resources@clipsule.cn">电子邮件</a></li>
-        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="https://github.com/clipsule" rel="noopener noreferrer" target="_blank">GitHub</a></li>
-        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="contributing.html">贡献者指南</a></li>
+        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="mailto:queer-resources@clipsule.cn" data-i18n="index.footer.contact.email">电子邮件</a></li>
+        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="https://github.com/clipsule" rel="noopener noreferrer" target="_blank" data-i18n="index.footer.contact.github">GitHub</a></li>
+        <li><a class="text-slate-500 hover:text-blue-600 transition-colors" href="contributing.html" data-i18n="index.footer.contact.guide">贡献者指南</a></li>
       </ul>
     </div>
   </div>
@@ -465,10 +465,11 @@
   <!-- 版权行 -->
   <div class="pt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs text-slate-500">
     <p>Copyright © 2026 <a href="https://github.com/clipsule" rel="noopener noreferrer" target="_blank" class="font-semibold text-slate-700 hover:text-blue-600 transition-colors">晴れ猫🏳️‍⚧️🍥 (clipsule)</a> · 本站内容以 <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener noreferrer" target="_blank" class="hover:text-blue-600 transition-colors">CC BY-SA 4.0</a> 许可开放使用</p>
-    <p class="text-[11px] text-slate-400">数据来自社区整理，链接、电话与服务现状未经独立核验</p>
+    <p class="text-[11px] text-slate-400" data-i18n="index.footer.disclaimer">数据来自社区整理，链接、电话与服务现状未经独立核验</p>
   </div>
 </div>
 </footer>
 
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 </body></html>

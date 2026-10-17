@@ -68,6 +68,24 @@
     return '';
   }
 
+  // ---- i18n 桥接 ----
+  // i18n.js 暴露 QRi18n：t() 取当前语言文案、resources() 取译文资源、aliasGroups() 取本地化同义词
+  // 未加载成功时（例如用 file:// 打开）一律回退中文原文与 resources.js 原始数据
+  function T(key, vars, fallback) {
+    const v = window.QRi18n ? QRi18n.t(key, vars) : '';
+    return v || fallback || '';
+  }
+
+  function currentResources() {
+    const r = (window.QRi18n && QRi18n.resources) ? QRi18n.resources() : null;
+    return (r && r.length) ? r : (window.QUEER_RESOURCES || []);
+  }
+
+  function currentAliasGroups() {
+    const g = (window.QRi18n && QRi18n.aliasGroups) ? QRi18n.aliasGroups() : null;
+    return (g && g.length) ? g : QUERY_ALIAS_GROUPS;
+  }
+
   // ---- URL hash 同步 ----
   // 搜索词（q）不写入 URL：否则刷新后会从上一次的搜索结果自动跳转、且搜索框残留旧值。
   // URL 只保存「分类 / 类型 / 地区」这类可分享的筛选条件。
@@ -129,7 +147,8 @@
     const cat = primaryCat(item);
     const accent = CATEGORY_ACCENT[cat] || CATEGORY_ACCENT.wiki;
     const tags = (item.tags || []).slice(0, 3);
-    const risk = /风险|减害|不替代|待核验|商业/.test(item.note || '');
+    // 风险判断基于中文原文 note：译文措辞不稳定，见 locales/i18n.json 的 i18nNotes ②
+    const risk = /风险|减害|不替代|待核验|商业/.test(item.noteRaw || item.note || '');
     const tagHtml = tags.map(function (tag, i) {
       return '<span class="px-2.5 py-1 rounded-full text-xs font-bold border ' + TAG_STYLES[i % TAG_STYLES.length] + '">' + escapeHtml(tag) + '</span>';
     }).join('');
@@ -146,7 +165,7 @@
       escapeHtml([item.name, item.type, item.location, item.note, item.section, item.subsection].concat(item.tags || []).join(' ').toLowerCase()) +
       '">' +
         // stretched link：覆盖整卡的主点击入口（z-10，高于背景但低于需要独立点击的子元素）
-        '<a class="absolute inset-0 z-10 rounded-3xl cursor-pointer" aria-label="访问 ' + escapeHtml(item.name) + ' 的官网" href="' + escapeHtml(href) + '" rel="noopener noreferrer" target="_blank"></a>' +
+        '<a class="absolute inset-0 z-10 rounded-3xl cursor-pointer" aria-label="' + escapeHtml(T('app.card.visitAria', { name: item.name }, '访问 ' + item.name + ' 的官网')) + '" href="' + escapeHtml(href) + '" rel="noopener noreferrer" target="_blank"></a>' +
         // 内容层：pointer-events-none 让点击穿透到 stretched link；只有真正独立的交互元素才恢复 pointer-events-auto
         '<div class="relative z-20 flex flex-col justify-between flex-1 pointer-events-none">' +
           '<div>' +
@@ -158,13 +177,13 @@
             '<div class="p-3.5 rounded-2xl bg-white/70 border text-xs text-slate-600 leading-relaxed ' + (risk ? 'border-amber-200/90' : accent.split(' ')[0]) + '">' +
               '<div class="flex items-center gap-1.5 font-bold mb-1 ' + (risk ? 'text-amber-800' : accent.split(' ')[1]) + '">' +
                 '<span aria-hidden="true" class="material-symbols-outlined text-base">' + (risk ? 'warning' : 'info') + '</span>' +
-                '<span>' + (risk ? '风险提示' : '说明') + '</span>' +
-              '</div>' + escapeHtml(item.note || '请以机构官网最新说明为准。') +
+                '<span>' + (risk ? T('app.card.riskLabel', null, '风险提示') : T('app.card.noteLabel', null, '说明')) + '</span>' +
+              '</div>' + escapeHtml(item.note || T('app.card.defaultNote', null, '请以机构官网最新说明为准。')) +
             '</div>' +
           '</div>' +
           '<div class="mt-6 pt-4 border-t border-slate-200/50 flex items-center justify-between text-xs text-slate-500 font-medium gap-3">' +
             '<span class="truncate">' + escapeHtml(item.location || '') + '</span>' +
-            '<span class="text-blue-600 font-bold group-hover:underline">打开官网 →</span>' +
+            '<span class="text-blue-600 font-bold group-hover:underline">' + escapeHtml(T('app.card.openSite', null, '打开官网 →')) + '</span>' +
           '</div>' +
         '</div>' +
       '</article>'
@@ -184,10 +203,10 @@
         '<div class="min-w-0 flex-1">' +
           '<div class="text-xs text-slate-500 mb-0.5 truncate">' + name + (loc ? ' · ' + loc : '') + '</div>' +
           '<a class="text-base font-bold text-slate-800 hover:text-rose-500 flex items-center gap-1 truncate" href="' + escapeHtml(href) + '" rel="noopener noreferrer" target="_blank">' +
-            '<span aria-hidden="true" class="material-symbols-outlined text-base text-slate-400">language</span>访问官网获取联系方式' +
+            '<span aria-hidden="true" class="material-symbols-outlined text-base text-slate-400">language</span>' + escapeHtml(T('app.crisis.getContact', null, '访问官网获取联系方式')) +
           '</a>' +
         '</div>' +
-        '<a class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1.5 rounded-full flex-shrink-0 hover:bg-rose-50 hover:text-rose-700 transition-colors" href="' + escapeHtml(href) + '" target="_blank" rel="noopener noreferrer">官网</a>' +
+        '<a class="text-xs text-slate-500 bg-slate-100 px-2.5 py-1.5 rounded-full flex-shrink-0 hover:bg-rose-50 hover:text-rose-700 transition-colors" href="' + escapeHtml(href) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(T('app.crisis.website', null, '官网')) + '</a>' +
       '</div>'
     );
   }
@@ -196,10 +215,11 @@
     const groups = [];
     const index = new Map();
     resources.forEach(function (item) {
-      const key = (item.subsection || item.section || '未分类') + '|||' + (item.section || '');
+      const uncategorized = T('app.group.uncategorized', null, '未分类');
+      const key = (item.subsection || item.section || uncategorized) + '|||' + (item.section || '');
       if (!index.has(key)) {
         index.set(key, groups.length);
-        groups.push({ section: item.section || '未分类', subsection: item.subsection || '', items: [] });
+        groups.push({ section: item.section || uncategorized, subsection: item.subsection || '', items: [] });
       }
       groups[index.get(key)].items.push(item);
     });
@@ -208,8 +228,8 @@
 
   // ---- 渲染 ----
   function buildFullGridHtml() {
-    const resources = window.QUEER_RESOURCES || [];
-    if (!resources.length) return '<p class="text-sm text-slate-500">未能载入 resources.js。</p>';
+    const resources = currentResources();
+    if (!resources.length) return '<p class="text-sm text-slate-500">' + escapeHtml(T('app.empty.loadError', null, '未能载入 resources.js。')) + '</p>';
     const groups = groupResources(resources);
     let uidCounter = 0;
     return groups.map(function (group, gi) {
@@ -225,7 +245,7 @@
           '<div class="flex items-end justify-between gap-3 border-b border-slate-200/70 pb-2">' +
             '<div><h3 class="text-lg sm:text-xl font-extrabold text-slate-900">' + escapeHtml(title) + '</h3>' +
             (subtitle ? '<p class="text-xs text-slate-500 mt-0.5">' + escapeHtml(subtitle) + '</p>' : '') + '</div>' +
-            '<span class="text-xs font-semibold text-slate-500 group-count">' + group.items.length + ' 条</span>' +
+            '<span class="text-xs font-semibold text-slate-500 group-count">' + escapeHtml(T('app.group.count', { n: group.items.length }, group.items.length + ' 条')) + '</span>' +
           '</div>' +
           '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">' + cardsHtml + '</div>' +
         '</section>'
@@ -244,32 +264,32 @@
   }
 
   function renderCrisisGrid() {
-    const resources = window.QUEER_RESOURCES || [];
+    const resources = currentResources();
     const container = document.getElementById('crisisGrid');
     if (!container || !resources.length) return;
     const crisis = resources.filter(function (r) {
       return (r.categories || []).indexOf('crisis') !== -1;
     }).slice(0, 6);
     if (!crisis.length) {
-      container.innerHTML = '<p class="text-xs text-slate-400">暂无危机热线条目。请以机构官网为准。</p>';
+      container.innerHTML = '<p class="text-xs text-slate-400">' + escapeHtml(T('app.empty.noCrisis', null, '暂无危机热线条目。请以机构官网为准。')) + '</p>';
       return;
     }
     container.innerHTML = crisis.map(crisisCardHtml).join('');
   }
 
   function updateCounts() {
-    const resources = window.QUEER_RESOURCES || [];
+    const resources = currentResources();
     const total = document.getElementById('totalCount');
     if (total) total.textContent = resources.length;
     const heroHint = document.getElementById('heroResourceHint');
-    if (heroHint) heroHint.textContent = '共 ' + resources.length + ' 条';
+    if (heroHint) heroHint.textContent = T('app.count.heroHint', { n: resources.length }, '共 ' + resources.length + ' 条');
     const live = document.getElementById('filterStatus');
-    if (live && !live.textContent) live.textContent = '共 ' + resources.length + ' 条资源';
+    if (live && !live.textContent) live.textContent = T('app.count.liveTotal', { n: resources.length }, '共 ' + resources.length + ' 条资源');
   }
 
   function renderFeaturedGrid() {
     const grid = document.getElementById('featuredGrid');
-    const resources = window.QUEER_RESOURCES || [];
+    const resources = currentResources();
     if (!grid || !resources.length) return;
     const picked = [];
     const seenCats = new Set();
@@ -466,8 +486,9 @@
     const t = (term || '').toLowerCase().trim();
     if (!t) return [];
     const result = new Set([t]);
-    for (let i = 0; i < QUERY_ALIAS_GROUPS.length; i++) {
-      const g = QUERY_ALIAS_GROUPS[i];
+    const groups = currentAliasGroups();
+    for (let i = 0; i < groups.length; i++) {
+      const g = groups[i];
       for (let j = 0; j < g.aliases.length; j++) {
         const a = g.aliases[j];
         if (a === t || t.indexOf(a) !== -1 || a.indexOf(t) !== -1) {
@@ -519,19 +540,24 @@
       const visible = group.querySelectorAll('article:not(.hidden)').length;
       group.classList.toggle('hidden', visible === 0);
       const countEl = group.querySelector('.group-count');
-      if (countEl) countEl.textContent = visible + ' 条';
+      if (countEl) countEl.textContent = T('app.group.count', { n: visible }, visible + ' 条');
     });
 
     if (noResults) noResults.classList.toggle('hidden', matchCount !== 0);
     const label = document.getElementById('visibleCountLabel');
     const total = allCards.length;
     if (label) {
-      const regionLabel = state.region !== 'all' ? ' · ' + (REGION_LABEL[state.region] || state.region) : '';
-      label.innerHTML = '<span aria-hidden="true" class="material-symbols-outlined text-sm text-blue-600">sort</span><span>显示 ' + matchCount + ' / ' + total + ' 条' + regionLabel + '</span>';
+      const regionLabel = state.region !== 'all'
+        ? ' · ' + T('app.region.' + state.region, null, REGION_LABEL[state.region] || state.region)
+        : '';
+      const visibleText = T('app.count.visible', { matched: matchCount, total: total }, '显示 ' + matchCount + ' / ' + total + ' 条');
+      label.innerHTML = '<span aria-hidden="true" class="material-symbols-outlined text-sm text-blue-600">sort</span><span>' + escapeHtml(visibleText) + escapeHtml(regionLabel) + '</span>';
     }
     // aria-live 更新
     const live = document.getElementById('filterStatus');
-    if (live) live.textContent = matchCount === 0 ? '未找到匹配的资源' : '找到 ' + matchCount + ' 条资源';
+    if (live) live.textContent = matchCount === 0
+      ? T('app.count.noMatch', null, '未找到匹配的资源')
+      : T('app.count.found', { n: matchCount }, '找到 ' + matchCount + ' 条资源');
     // 统一在这里同步 URL（避免多处重复调用）
     syncUrl();
   }
@@ -649,7 +675,7 @@
   }
 
   // ---- 初始化 ----
-  document.addEventListener('DOMContentLoaded', function () {
+  function initSite() {
     // === 移动端导航抽屉 ===
     const mobileBtn = document.getElementById('mobileMenuBtn');
     const mobileNav = document.getElementById('mobileNav');
@@ -855,5 +881,14 @@
     // 初次渲染筛选状态
     applyFilterState();
     // setActiveNav 已在上方显式调用，不在此处重复
+  }
+
+  // i18n 就绪后再初始化：确保资源卡片用当前语言的译文渲染
+  document.addEventListener('DOMContentLoaded', function () {
+    if (window.QRi18n && QRi18n.ready && typeof QRi18n.ready.then === 'function') {
+      QRi18n.ready.then(initSite);
+    } else {
+      initSite();
+    }
   });
 })();
