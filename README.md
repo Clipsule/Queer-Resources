@@ -128,7 +128,7 @@ python3 scripts/build_icon_font.py <完整字体.woff2 路径>
 
 - **GitHub 仓库**：<https://github.com/Clipsule/Queer-Resources>
 - **GitHub 组织**：<https://github.com/clipsule>
-- **邮箱**：<mailto:queer-resources@clipsule.cn>
+- **邮箱**：<a href="mailto:queer-resources@clipsule.cn"> 点击此处 <!--你邮箱改下，用a href-->
 - **X / Twitter**：<https://x.com/qingmao_ovo>
 - **Telegram 群**：<https://t.me/+uPey6QU-zqowODhl>
 - **贡献指南**：[CONTRIBUTING.md](./CONTRIBUTING.md) · [contributing.html](./contributing.html)
